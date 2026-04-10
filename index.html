@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Guerra dos Mutantes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #080810;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* ── GRID ─────────────────────────────────── */
+  .bg {
+    position: fixed; inset: 0;
+    background-color: #080810;
+    background-image:
+      repeating-linear-gradient(0deg,  transparent, transparent 39px, rgba(204,34,34,0.07) 39px, rgba(204,34,34,0.07) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(204,34,34,0.07) 39px, rgba(204,34,34,0.07) 40px);
+    z-index: 0;
+  }
+  .bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 65% 55% at 50% 50%, rgba(204,34,34,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 35% 35% at 15% 85%, rgba(107,124,58,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 35% at 85% 15%, rgba(107,124,58,0.05) 0%, transparent 60%);
+    animation: bg-breathe 8s ease-in-out infinite;
+  }
+  @keyframes bg-breathe { 0%,100%{opacity:1} 50%{opacity:0.45} }
+
+  /* ── NOISE GRAIN ──────────────────────────── */
+  .noise {
+    position: fixed; inset: 0; z-index: 3; pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: noise-shift 0.5s steps(1) infinite;
+  }
+  @keyframes noise-shift {
+    0%  { background-position: 0 0; }
+    25% { background-position: -30px 10px; }
+    50% { background-position: 15px -20px; }
+    75% { background-position: -10px 30px; }
+  }
+
+  /* ── VIGNETTE ─────────────────────────────── */
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 120% 120% at 50% 50%, transparent 30%, rgba(0,0,0,0.82) 100%);
+    pointer-events: none; z-index: 1;
+  }
+
+  /* ── SCAN LINE ────────────────────────────── */
+  .scanline {
+    position: fixed; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, rgba(204,34,34,0.15) 20%, rgba(204,34,34,0.25) 50%, rgba(204,34,34,0.15) 80%, transparent 100%);
+    z-index: 4; pointer-events: none;
+    animation: scan-sweep 10s linear infinite;
+    box-shadow: 0 0 8px rgba(204,34,34,0.2);
+  }
+  @keyframes scan-sweep {
+    0%   { top: -2px; opacity: 0; }
+    2%   { opacity: 1; }
+    98%  { opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+  }
+
+  /* ── CENTER PULSE ─────────────────────────── */
+  .pulse {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(204,34,34,0.12) 0%, transparent 70%);
+    pointer-events: none; z-index: 2;
+    animation: center-pulse 7s ease-in-out infinite;
+    opacity: 0;
+  }
+  @keyframes center-pulse {
+    0%,100% { opacity: 0; transform: scale(1); }
+    10%     { opacity: 1; transform: scale(1.05); }
+    40%     { opacity: 0; transform: scale(1.15); }
+  }
+
+  /* ── MATRIX COLUMNS ───────────────────────── */
+  .matrix-layer {
+    position: fixed; inset: 0;
+    z-index: 2; pointer-events: none; overflow: hidden;
+  }
+  .m-col {
+    position: absolute; top: 0;
+    display: flex; flex-direction: column;
+    gap: 4px;
+    animation: m-fall linear infinite;
+    font-size: 9px; letter-spacing: 0.05em;
+    color: rgba(204,34,34,0.28);
+    user-select: none;
+  }
+  .m-col span { display: block; line-height: 1.4; }
+  .m-col span.bright { color: rgba(204,34,34,0.7); text-shadow: 0 0 6px rgba(204,34,34,0.5); }
+  @keyframes m-fall {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(110vh); }
+  }
+
+  /* ── DATA LAYER ───────────────────────────── */
+  .data-layer {
+    position: fixed; inset: 0;
+    z-index: 5; pointer-events: none; overflow: hidden;
+  }
+  .dn {
+    position: absolute;
+    font-size: 8px; letter-spacing: 0.12em;
+    white-space: nowrap; user-select: none;
+  }
+  .dn.r { color: rgba(204,34,34,0.22); }
+  .dn.g { color: rgba(107,124,58,0.22); }
+  .dn.w { color: rgba(255,255,255,0.07); }
+
+  .ch { position: absolute; width:14px; height:14px; border-radius:50%; pointer-events:none; }
+  .ch.r { border:1px solid rgba(204,34,34,0.25); }
+  .ch.g { border:1px solid rgba(107,124,58,0.25); }
+  .ch::before,.ch::after { content:''; position:absolute; }
+  .ch.r::before { width:1px;height:7px;left:50%;top:-5px;transform:translateX(-50%);background:rgba(204,34,34,0.25); }
+  .ch.r::after  { width:7px;height:1px;top:50%;left:-5px;transform:translateY(-50%);background:rgba(204,34,34,0.25); }
+  .ch.g::before { width:1px;height:7px;left:50%;top:-5px;transform:translateX(-50%);background:rgba(107,124,58,0.25); }
+  .ch.g::after  { width:7px;height:1px;top:50%;left:-5px;transform:translateY(-50%);background:rgba(107,124,58,0.25); }
+
+  .bracket { position:absolute; width:32px; height:32px; pointer-events:none; opacity:0.18; }
+  .bracket.r { border-color:#cc2222; }
+  .bracket.g { border-color:#6b7c3a; }
+  .bracket.tl { border-top:1px solid; border-left:1px solid; }
+  .bracket.tr { border-top:1px solid; border-right:1px solid; }
+  .bracket.bl { border-bottom:1px solid; border-left:1px solid; }
+  .bracket.br { border-bottom:1px solid; border-right:1px solid; }
+
+  /* ── SCAN PROGRESS ────────────────────────── */
+  .scan-progress {
+    position: fixed; bottom: 9vh; left: 2.5%;
+    z-index: 6; pointer-events: none;
+  }
+  .sp-label {
+    font-size: 7px; letter-spacing: 0.25em;
+    color: rgba(204,34,34,0.4); margin-bottom: 4px;
+  }
+  .sp-bar-wrap {
+    width: 140px; height: 6px;
+    border: 1px solid rgba(204,34,34,0.2);
+    border-radius: 2px; overflow: hidden;
+    background: rgba(204,34,34,0.04);
+  }
+  .sp-bar {
+    height: 100%;
+    background: linear-gradient(to right, #cc2222aa, #ff4444cc);
+    box-shadow: 0 0 6px #cc222266;
+    animation: progress-anim 18s linear infinite;
+  }
+  @keyframes progress-anim {
+    0%   { width: 0%; }
+    100% { width: 100%; }
+  }
+  .sp-pct {
+    font-size: 7px; letter-spacing: 0.2em;
+    color: rgba(204,34,34,0.35); margin-top: 3px;
+    animation: pct-count 18s linear infinite;
+  }
+
+  /* ── COUNTDOWN ────────────────────────────── */
+  .countdown {
+    position: fixed; top: 2.5vh; right: 2.5%;
+    z-index: 6; text-align: right; pointer-events: none;
+  }
+  .cd-label {
+    font-size: 7px; letter-spacing: 0.3em;
+    color: rgba(204,34,34,0.35); margin-bottom: 2px;
+  }
+  .cd-timer {
+    font-size: 22px; letter-spacing: 0.15em;
+    color: rgba(204,34,34,0.55);
+    text-shadow: 0 0 10px rgba(204,34,34,0.3);
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .cd-sub {
+    font-size: 7px; letter-spacing: 0.25em;
+    color: rgba(204,34,34,0.25); margin-top: 2px;
+  }
+
+  /* ── LOG FEED ─────────────────────────────── */
+  .log-feed {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 7vh; z-index: 6; pointer-events: none;
+    overflow: hidden;
+    padding: 0 2.5%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding-bottom: 6px;
+    border-top: 1px solid rgba(204,34,34,0.08);
+    background: linear-gradient(to top, rgba(8,8,16,0.6), transparent);
+  }
+  .log-line {
+    font-size: 7px; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.08);
+    white-space: nowrap; overflow: hidden;
+    animation: log-scroll 2s ease-in-out forwards;
+    margin-bottom: 1px;
+  }
+  .log-line.r { color: rgba(204,34,34,0.18); }
+  .log-line.g { color: rgba(107,124,58,0.18); }
+  @keyframes log-scroll {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── COMPASS ──────────────────────────────── */
+  .compass {
+    position: fixed; bottom: 9vh; right: 2.5%;
+    z-index: 6; pointer-events: none;
+    width: 52px; height: 52px;
+  }
+  .compass svg { width: 100%; height: 100%; }
+
+  /* ── SIGNAL BARS ──────────────────────────── */
+  .signal {
+    position: fixed; top: 2.5vh; left: 2.5%;
+    z-index: 6; pointer-events: none;
+  }
+  .sig-label {
+    font-size: 7px; letter-spacing: 0.25em;
+    color: rgba(107,124,58,0.4); margin-bottom: 4px;
+  }
+  .sig-bars {
+    display: flex; align-items: flex-end; gap: 3px;
+  }
+  .sig-bar {
+    width: 5px; border-radius: 1px;
+    background: rgba(107,124,58,0.6);
+    box-shadow: 0 0 4px rgba(107,124,58,0.4);
+  }
+  .sig-bar:nth-child(1) { height: 6px;  animation: bar-pulse 1.8s 0.0s ease-in-out infinite; }
+  .sig-bar:nth-child(2) { height: 10px; animation: bar-pulse 1.8s 0.2s ease-in-out infinite; }
+  .sig-bar:nth-child(3) { height: 14px; animation: bar-pulse 1.8s 0.4s ease-in-out infinite; }
+  .sig-bar:nth-child(4) { height: 18px; animation: bar-pulse 1.8s 0.6s ease-in-out infinite; }
+  .sig-bar:nth-child(5) { height: 22px; animation: bar-pulse 1.8s 0.8s ease-in-out infinite; background: rgba(107,124,58,0.25); box-shadow: none; }
+  @keyframes bar-pulse {
+    0%,100% { opacity: 1; }
+    50%     { opacity: 0.35; }
+  }
+  .sig-status {
+    font-size: 7px; letter-spacing: 0.2em;
+    color: rgba(107,124,58,0.35); margin-top: 3px;
+    animation: blink-slow 3s infinite;
+  }
+  @keyframes blink-slow { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* ── HEX FRAME ────────────────────────────── */
+  .hex-layer {
+    position: fixed; inset: 0;
+    z-index: 48; pointer-events: none;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .hex-frame {
+    position: relative;
+    width: 580px; height: 420px;
+  }
+  .hex-frame svg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+
+  /* ── TITLE ────────────────────────────────── */
+  .title-wrap {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 2.2vh; z-index: 40; pointer-events: none;
+  }
+  .title-bar { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+  .bar-line { height:1px; width:60px; background:linear-gradient(to right,transparent,rgba(204,34,34,0.5)); }
+  .bar-line.right { background:linear-gradient(to left,transparent,rgba(204,34,34,0.5)); }
+  .bar-label { font-size:8px; letter-spacing:0.4em; color:rgba(204,34,34,0.5); }
+
+  .glitch {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(30px,4.8vw,66px);
+    letter-spacing: 0.2em; color: #ececf4;
+    text-shadow: 0 0 6px #cc2222, 0 0 20px #cc222277, 0 0 50px #cc222233;
+    position: relative; user-select: none;
+  }
+  .glitch::before,.glitch::after {
+    content: attr(data-text); position:absolute; top:0; left:0;
+    width:100%; font-family:inherit; font-size:inherit; letter-spacing:inherit;
+  }
+  .glitch::before { color:#ff2222; text-shadow:none; clip-path:polygon(0 0,100% 0,100% 32%,0 32%); animation:glitch-top 5s infinite steps(1); }
+  .glitch::after  { color:#3366ff; text-shadow:none; clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%); animation:glitch-bot 5s infinite steps(1); }
+  @keyframes glitch-top {
+    0%,100%{transform:translate(0);opacity:0}
+    5%{transform:translate(-3px,-1px);opacity:0.9} 6%{opacity:0}
+    16%{transform:translate(-4px,1px);opacity:0.7;clip-path:polygon(0 10%,100% 10%,100% 38%,0 38%)} 17%{opacity:0}
+    56%{transform:translate(3px,-2px);opacity:0.85} 57%{opacity:0}
+    81%{transform:translate(-2px,1px);opacity:0.6} 82%{opacity:0}
+  }
+  @keyframes glitch-bot {
+    0%,100%{transform:translate(0);opacity:0}
+    5%{transform:translate(3px,1px);opacity:0.9} 6%{opacity:0}
+    16%{transform:translate(4px,-1px);opacity:0.7;clip-path:polygon(0 62%,100% 62%,100% 88%,0 88%)} 17%{opacity:0}
+    56%{transform:translate(-3px,2px);opacity:0.85} 57%{opacity:0}
+    81%{transform:translate(2px,-1px);opacity:0.6} 82%{opacity:0}
+  }
+
+  .title-status { display:flex; align-items:center; gap:16px; margin-top:5px; }
+  .status-dot { width:5px;height:5px;border-radius:50%;background:#cc2222;box-shadow:0 0 6px #cc2222;animation:dot-blink 2s infinite; }
+  @keyframes dot-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .status-text { font-size:8px;letter-spacing:0.3em;color:rgba(204,34,34,0.45);animation:sub-flicker 7s infinite; }
+  @keyframes sub-flicker { 0%,100%{opacity:1} 73%{opacity:0.1} 74%{opacity:1} 91%{opacity:0} 92%{opacity:1} }
+
+  /* ── CARDS ────────────────────────────────── */
+  .scene {
+    position: fixed; inset: 0;
+    display:flex; justify-content:center; align-items:center;
+    perspective:1200px; z-index:50;
+  }
+  .card-wrap { transition:transform 0.5s cubic-bezier(0.23,1,0.32,1); cursor:pointer; width:240px; flex-shrink:0; position:relative; }
+  .card-wrap.nagi { transform:rotate(-2deg) translateY(-30px); z-index:2; margin-right:-32px; }
+  .card-wrap.nagi:hover { transform:rotate(0deg) translateY(-42px) scale(1.06); z-index:10; }
+  .card-wrap.leo  { transform:rotate(2deg) translateY(30px); z-index:3; margin-right:-32px; }
+  .card-wrap.leo:hover  { transform:rotate(0deg) translateY(18px) scale(1.06); z-index:10; }
+
+  .card { width:240px;border-radius:16px;overflow:hidden;position:relative;background:#080810; }
+  .card.nagi { border:1.5px solid #cc2222;box-shadow:0 2px 0 #ff000022,0 8px 32px #00000099,0 0 28px #cc222244; }
+  .card.leo  { border:1.5px solid #6b7c3a; box-shadow:0 2px 0 #6b7c3a22,0 8px 32px #00000099,0 0 20px #6b7c3a33; }
+
+  .card-img { width:100%;height:320px;object-fit:cover;object-position:top center;display:block;filter:contrast(1.05) saturate(1.1); }
+  .card-img-placeholder { width:100%;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:#0d0d1a; }
+  .card-top { position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px; }
+  .card-id { font-size:9px;color:#ffffff44;font-family:monospace;letter-spacing:1px; }
+  .rarity-nagi { font-size:9px;color:#cc2222;font-family:monospace;letter-spacing:2px;border:1px solid #cc222244;padding:2px 6px;border-radius:4px; }
+  .rarity-leo  { font-size:9px;color:#6b7c3a; font-family:monospace;letter-spacing:2px;border:1px solid #6b7c3a44; padding:2px 6px;border-radius:4px; }
+  .card-bottom { position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#080810cc 30%,#080810);padding:2rem 1rem 1rem; }
+  .card-class-nagi { font-size:9px;letter-spacing:2px;color:#cc2222;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
+  .card-class-leo  { font-size:9px;letter-spacing:2px;color:#6b7c3a; text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
+  .card-name { font-size:16px;font-weight:700;color:#f0f0f0;font-family:monospace;letter-spacing:1px;margin:0 0 8px; }
+  .divider-nagi { width:100%;height:1px;background:#cc222233;margin-bottom:8px; }
+  .divider-leo  { width:100%;height:1px;background:#6b7c3a33; margin-bottom:8px; }
+  .stats { display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px; }
+  .stat { text-align:center;background:#ffffff06;border:1px solid #ffffff0a;border-radius:6px;padding:4px 0; }
+  .stat-val-nagi { font-size:14px;font-weight:700;color:#cc2222;font-family:monospace; }
+  .stat-val-leo  { font-size:14px;font-weight:700;color:#6b7c3a; font-family:monospace; }
+  .stat-label { font-size:7px;letter-spacing:2px;color:#666;text-transform:uppercase;font-family:monospace; }
+  .ability-nagi { font-size:9px;color:#999;font-family:monospace;border:1px solid #cc222222;border-radius:6px;padding:6px 8px;line-height:1.6; }
+  .ability-leo  { font-size:9px;color:#999;font-family:monospace;border:1px solid #6b7c3a22; border-radius:6px;padding:6px 8px;line-height:1.6; }
+  .ability-name-nagi { color:#cc2222;font-weight:700; }
+  .ability-name-leo  { color:#6b7c3a; font-weight:700; }
+  .corner-accent { position:absolute;width:14px;height:14px;border-style:solid;opacity:0.6; }
+  .corner-accent.nagi { border-color:#cc2222; }
+  .corner-accent.leo  { border-color:#6b7c3a; }
+  .tl { top:8px;left:8px;  border-width:2px 0 0 2px;border-radius:3px 0 0 0; }
+  .tr { top:8px;right:8px; border-width:2px 2px 0 0;border-radius:0 3px 0 0; }
+
+  /* ── RENE (white) ── */
+  .card-wrap.rene { transform:rotate(-6deg) translateY(-90px); z-index:1; margin-right:-32px; }
+  .card-wrap.rene:hover { transform:rotate(-2deg) translateY(-102px) scale(1.06); z-index:10; }
+  .card.rene { border:1.5px solid #cccccc; box-shadow:0 2px 0 #ffffff22,0 8px 32px #00000099,0 0 24px #ffffff22; }
+  .rarity-rene { font-size:9px;color:#cccccc;font-family:monospace;letter-spacing:2px;border:1px solid #cccccc44;padding:2px 6px;border-radius:4px; }
+  .card-class-rene { font-size:9px;letter-spacing:2px;color:#cccccc;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
+  .divider-rene { width:100%;height:1px;background:#cccccc33;margin-bottom:8px; }
+  .stat-val-rene { font-size:14px;font-weight:700;color:#cccccc;font-family:monospace; }
+  .ability-rene { font-size:9px;color:#999;font-family:monospace;border:1px solid #cccccc22;border-radius:6px;padding:6px 8px;line-height:1.6; }
+  .ability-name-rene { color:#cccccc;font-weight:700; }
+  .corner-accent.rene { border-color:#cccccc; }
+
+  /* ── ABEL (blue) ── */
+  .card-wrap.abel { transform:rotate(6deg) translateY(90px); z-index:4; margin-top:0; }
+  .card-wrap.abel:hover { transform:rotate(2deg) translateY(78px) scale(1.06); z-index:10; }
+  .card.abel { border:1.5px solid #2a6fcc; box-shadow:0 2px 0 #2a6fcc22,0 8px 32px #00000099,0 0 24px #2a6fcc33; }
+  .rarity-abel { font-size:9px;color:#4d9fff;font-family:monospace;letter-spacing:2px;border:1px solid #2a6fcc44;padding:2px 6px;border-radius:4px; }
+  .card-class-abel { font-size:9px;letter-spacing:2px;color:#4d9fff;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
+  .divider-abel { width:100%;height:1px;background:#2a6fcc33;margin-bottom:8px; }
+  .stat-val-abel { font-size:14px;font-weight:700;color:#4d9fff;font-family:monospace; }
+  .ability-abel { font-size:9px;color:#999;font-family:monospace;border:1px solid #2a6fcc22;border-radius:6px;padding:6px 8px;line-height:1.6; }
+  .ability-name-abel { color:#4d9fff;font-weight:700; }
+  .corner-accent.abel { border-color:#2a6fcc; }
+
+  .hint {
+    position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);
+    font-size:9px;color:#ffffff18;font-family:monospace;
+    letter-spacing:3px;z-index:70;white-space:nowrap;text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- BASE -->
+<div class="bg"></div>
+<div class="noise"></div>
+<div class="vignette"></div>
+<div class="scanline"></div>
+<div class="pulse"></div>
+
+<!-- MATRIX COLUMNS — injected by JS -->
+<div class="matrix-layer" id="matrix"></div>
+
+<!-- HEX FRAME around cards -->
+<div class="hex-layer">
+  <div class="hex-frame">
+    <svg viewBox="0 0 580 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- outer hex-ish frame -->
+      <polyline points="40,0 540,0 580,40 580,380 540,420 40,420 0,380 0,40 40,0"
+        stroke="rgba(204,34,34,0.12)" stroke-width="1" fill="none"/>
+      <!-- inner frame -->
+      <polyline points="50,10 530,10 570,50 570,370 530,410 50,410 10,370 10,50 50,10"
+        stroke="rgba(204,34,34,0.06)" stroke-width="1" fill="none"/>
+      <!-- corner ticks red -->
+      <line x1="40" y1="0"  x2="40"  y2="20" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
+      <line x1="0"  y1="40" x2="20"  y2="40" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
+      <line x1="540" y1="0"  x2="540" y2="20" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
+      <line x1="580" y1="40" x2="560" y2="40" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
+      <line x1="40"  y1="420" x2="40"  y2="400" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
+      <line x1="0"   y1="380" x2="20"  y2="380" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
+      <line x1="540" y1="420" x2="540" y2="400" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
+      <line x1="580" y1="380" x2="560" y2="380" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
+      <!-- label tags -->
+      <text x="46" y="11"  fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-A</text>
+      <text x="460" y="11" fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-B</text>
+      <text x="46" y="418" fill="rgba(107,124,58,0.35)" font-family="monospace" font-size="6" letter-spacing="2">LOCK</text>
+      <text x="452" y="418" fill="rgba(107,124,58,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TRACK</text>
+    </svg>
+  </div>
+</div>
+
+<!-- DATA LAYER -->
+<div class="data-layer">
+  <div class="dn r" style="top:8%;left:3%">LAT 40.71 // LONG -74.00</div>
+  <div class="dn w" style="top:13%;left:3%">SECTOR — 07 · WARD 77</div>
+  <div class="dn g" style="top:8%;right:3%">CASE FILE : 0077-B</div>
+  <div class="dn w" style="top:13%;right:3%">THREAT LVL : EXTREME</div>
+  <div class="dn r" style="bottom:22%;left:3%">STATUS : ACTIVE</div>
+  <div class="dn w" style="bottom:17%;left:3%">// LAST SIGNAL — BLOCK 77 //</div>
+  <div class="dn g" style="bottom:22%;right:3%">TARGET COUNT : 04</div>
+  <div class="dn w" style="bottom:17%;right:3%">UNIT : KAZEHARA / LEONIS / RAMIREZ / ABEL</div>
+  <div class="dn w" style="top:48%;left:2%">[ SYS:ON ]</div>
+  <div class="dn w" style="top:48%;right:2%">[ REC:ON ]</div>
+
+  <div class="ch r" style="top:calc(8% + 2px);left:calc(3% + 172px)"></div>
+  <div class="ch g" style="top:calc(8% + 2px);right:calc(3% + 122px)"></div>
+  <div class="ch r" style="bottom:calc(22% + 2px);left:calc(3% + 75px)"></div>
+  <div class="ch g" style="bottom:calc(22% + 2px);right:calc(3% + 110px)"></div>
+
+  <div class="bracket r tl" style="top:5%;left:1.5%"></div>
+  <div class="bracket r tr" style="top:5%;right:1.5%"></div>
+  <div class="bracket g bl" style="bottom:12%;left:1.5%"></div>
+  <div class="bracket g br" style="bottom:12%;right:1.5%"></div>
+</div>
+
+<!-- SCAN PROGRESS -->
+<div class="scan-progress">
+  <div class="sp-label">SCAN PROGRESS</div>
+  <div class="sp-bar-wrap"><div class="sp-bar" id="sp-bar"></div></div>
+  <div class="sp-pct" id="sp-pct">0%</div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <div class="cd-label">OPERATION EXPIRES IN</div>
+  <div class="cd-timer" id="cd-timer">00:00:00</div>
+  <div class="cd-sub">// WARD 77 CLEARANCE //</div>
+</div>
+
+<!-- SIGNAL BARS -->
+<div class="signal">
+  <div class="sig-label">SIGNAL</div>
+  <div class="sig-bars">
+    <div class="sig-bar"></div>
+    <div class="sig-bar"></div>
+    <div class="sig-bar"></div>
+    <div class="sig-bar"></div>
+    <div class="sig-bar"></div>
+  </div>
+  <div class="sig-status">ACQUIRING...</div>
+</div>
+
+<!-- COMPASS -->
+<div class="compass">
+  <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="26" cy="26" r="24" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
+    <circle cx="26" cy="26" r="18" stroke="rgba(204,34,34,0.1)" stroke-width="1"/>
+    <line x1="26" y1="2"  x2="26" y2="8"  stroke="rgba(204,34,34,0.5)" stroke-width="1.5"/>
+    <line x1="26" y1="44" x2="26" y2="50" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
+    <line x1="2"  y1="26" x2="8"  y2="26" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
+    <line x1="44" y1="26" x2="50" y2="26" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
+    <text x="24" y="13"  fill="rgba(204,34,34,0.6)" font-family="monospace" font-size="5">N</text>
+    <text x="24" y="44"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">S</text>
+    <text x="4"  y="28"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">W</text>
+    <text x="43" y="28"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">E</text>
+    <!-- needle -->
+    <g id="compass-needle">
+      <polygon points="26,10 28,26 26,24 24,26" fill="rgba(204,34,34,0.7)"/>
+      <polygon points="26,42 28,26 26,28 24,26" fill="rgba(204,34,34,0.2)"/>
+    </g>
+    <circle cx="26" cy="26" r="2" fill="rgba(204,34,34,0.5)"/>
+  </svg>
+</div>
+
+<!-- LOG FEED -->
+<div class="log-feed" id="log-feed"></div>
+
+<!-- TITLE -->
+<div class="title-wrap">
+  <div class="title-bar">
+    <div class="bar-line"></div>
+    <div class="bar-label">ARQUIVO CLASSIFICADO · WARD 77</div>
+    <div class="bar-line right"></div>
+  </div>
+  <div class="glitch" data-text="A GUERRA DOS MUTANTES">A GUERRA DOS MUTANTES</div>
+  <div class="title-status">
+    <div class="status-dot"></div>
+    <div class="status-text">TRANSMISSÃO ATIVA · NÍVEL DE AMEAÇA : EXTREMO</div>
+    <div class="status-dot"></div>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div class="scene">
+
+  <!-- RENE — posição acima, mesma linha do Nagi -->
+  <div class="card-wrap rene">
+    <div class="card rene">
+      <img class="card-img" src="https://i.imgur.com/hQl4iX4.jpeg" alt="Rene Ramirez"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;">
+        <span style="font-size:24px;color:#cccccc;">👻</span>
+        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
+      </div>
+      <div class="corner-accent rene tl"></div>
+      <div class="corner-accent rene tr"></div>
+      <div class="card-top">
+        <span class="card-id">#0079</span>
+        <span class="rarity-rene">★ LVL 05</span>
+      </div>
+      <div class="card-bottom">
+        <div class="card-class-rene">— O FANTASMA —</div>
+        <div class="card-name">RENE RAMIREZ</div>
+        <div class="divider-rene"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability-rene"><span class="ability-name-rene">FUNÇÃO ›</span> Nunca mais ser esquecido.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAGI -->
+  <div class="card-wrap nagi">
+    <div class="card nagi">
+      <img class="card-img" src="https://i.imgur.com/DGi3GFJ.jpeg" alt="Nagi"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;">
+        <span style="font-size:24px;color:#cc2222;">鬼</span>
+        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
+      </div>
+      <div class="corner-accent nagi tl"></div>
+      <div class="corner-accent nagi tr"></div>
+      <div class="card-top">
+        <span class="card-id">#0077</span>
+        <span class="rarity-nagi">★ LVL 05</span>
+      </div>
+      <div class="card-bottom">
+        <div class="card-class-nagi">— DEMÔNIO DAS RUAS —</div>
+        <div class="card-name">NAGI KAZEHARA</div>
+        <div class="divider-nagi"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability-nagi"><span class="ability-name-nagi">FUNÇÃO ›</span> Defende, da sua forma, aqueles que são indefesos.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-wrap leo">
+    <div class="card leo">
+      <img class="card-img" src="https://i.imgur.com/WGnzr4h.jpeg" alt="Leo"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;">
+        <span style="font-size:24px;color:#6b7c3a;">🜃</span>
+        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
+      </div>
+      <div class="corner-accent leo tl"></div>
+      <div class="corner-accent leo tr"></div>
+      <div class="card-top">
+        <span class="card-id">#0078</span>
+        <span class="rarity-leo">★ LVL 05</span>
+      </div>
+      <div class="card-bottom">
+        <div class="card-class-leo">— LEONIS —</div>
+        <div class="card-name">LEO</div>
+        <div class="divider-leo"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability-leo"><span class="ability-name-leo">FUNÇÃO ›</span> Entender seu propósito em meio a tanta tragédia.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABEL — posição abaixo, mesma linha do Leo -->
+  <div class="card-wrap abel">
+    <div class="card abel">
+      <img class="card-img" src="https://i.imgur.com/7e1tdzb.jpeg" alt="Abel"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;">
+        <span style="font-size:24px;color:#4d9fff;">◈</span>
+        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
+      </div>
+      <div class="corner-accent abel tl"></div>
+      <div class="corner-accent abel tr"></div>
+      <div class="card-top">
+        <span class="card-id">#0001</span>
+        <span class="rarity-abel">★ LVL 05</span>
+      </div>
+      <div class="card-bottom">
+        <div class="card-class-abel">— O CAIM —</div>
+        <div class="card-name">ABEL</div>
+        <div class="divider-abel"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability-abel"><span class="ability-name-abel">FUNÇÃO ›</span> Ajudar, acumular, devolver.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="hint">passe o mouse sobre cada card · ward 77 · case 0077-b</div>
+
+<script>
+// ── MATRIX COLUMNS ──────────────────────────
+const matrixLayer = document.getElementById('matrix');
+const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ0110100111001';
+function randomChar() { return chars[Math.floor(Math.random() * chars.length)]; }
+
+for (let i = 0; i < 8; i++) {
+  const col = document.createElement('div');
+  col.className = 'm-col';
+  const x = i < 4
+    ? (2 + i * 4) + '%'
+    : (74 + (i - 4) * 4) + '%';
+  col.style.left = x;
+  const len = 18 + Math.floor(Math.random() * 14);
+  for (let j = 0; j < len; j++) {
+    const s = document.createElement('span');
+    s.textContent = randomChar();
+    if (j === 0) s.classList.add('bright');
+    col.appendChild(s);
+  }
+  const dur = 6 + Math.random() * 10;
+  const del = Math.random() * 8;
+  col.style.animationDuration = dur + 's';
+  col.style.animationDelay    = '-' + del + 's';
+  matrixLayer.appendChild(col);
+
+  // refresh chars periodically
+  setInterval(() => {
+    col.querySelectorAll('span').forEach(s => {
+      if (Math.random() < 0.15) s.textContent = randomChar();
+    });
+  }, 120);
+}
+
+// ── COUNTDOWN ───────────────────────────────
+let totalSecs = 3 * 3600 + 47 * 60 + 22;
+function fmtTime(s) {
+  const h = String(Math.floor(s / 3600)).padStart(2,'0');
+  const m = String(Math.floor((s % 3600) / 60)).padStart(2,'0');
+  const sec = String(s % 60).padStart(2,'0');
+  return h + ':' + m + ':' + sec;
+}
+const cdEl = document.getElementById('cd-timer');
+setInterval(() => {
+  if (totalSecs > 0) totalSecs--;
+  cdEl.textContent = fmtTime(totalSecs);
+}, 1000);
+cdEl.textContent = fmtTime(totalSecs);
+
+// ── SCAN PROGRESS ────────────────────────────
+const spPct = document.getElementById('sp-pct');
+let pct = 0;
+setInterval(() => {
+  pct = (pct + 0.09) % 100;
+  spPct.textContent = Math.floor(pct) + '%';
+}, 180);
+
+// ── LOG FEED ─────────────────────────────────
+const logFeed = document.getElementById('log-feed');
+const logLines = [
+  { t:'r', m:'[ERR] SIGNAL LOST — NODE 07 UNRESPONSIVE' },
+  { t:'w', m:'[SYS] RECONNECTING TO WARD-77 RELAY...' },
+  { t:'g', m:'[OK]  TARGET LOCK CONFIRMED: KAZEHARA #0077' },
+  { t:'w', m:'[SYS] POWER GRID ANOMALY DETECTED — SECTOR 4' },
+  { t:'r', m:'[WARN] UNAUTHORIZED ENTRY — BLOCK 12 PERIMETER' },
+  { t:'g', m:'[OK]  BIOMETRIC MATCH: LEONIS #0078' },
+  { t:'w', m:'[SYS] UPLINK STABLE · LATENCY 4ms' },
+  { t:'r', m:'[WARN] GRAVITON FIELD DETECTED — RADIUS 40m' },
+  { t:'w', m:'[LOG] 0077-B LAST SEEN: ALLEY 9, WARD 7 · 02:14:07' },
+  { t:'g', m:'[OK]  THREAT ASSESSMENT COMPLETE — EXTREME' },
+  { t:'w', m:'[SYS] ARCHIVE SYNC IN PROGRESS...' },
+  { t:'r', m:'[ERR] FIREWALL BREACH ATTEMPT — ORIGIN UNKNOWN' },
+];
+let logIdx = 0;
+const MAX_LINES = 3;
+
+function addLogLine() {
+  const entry = logLines[logIdx % logLines.length];
+  logIdx++;
+  const el = document.createElement('div');
+  el.className = 'log-line ' + entry.t;
+  el.textContent = entry.m;
+  logFeed.appendChild(el);
+  while (logFeed.children.length > MAX_LINES) {
+    logFeed.removeChild(logFeed.firstChild);
+  }
+}
+addLogLine();
+setInterval(addLogLine, 2200);
+
+// ── COMPASS NEEDLE DRIFT ─────────────────────
+const needle = document.getElementById('compass-needle');
+let angle = 0;
+setInterval(() => {
+  angle += (Math.random() - 0.48) * 1.2;
+  needle.style.transform = `rotate(${angle}deg)`;
+  needle.style.transformOrigin = '26px 26px';
+}, 800);
+</script>
+</body>
+</html>
