@@ -317,76 +317,149 @@
   @keyframes sub-flicker { 0%,100%{opacity:1} 73%{opacity:0.1} 74%{opacity:1} 91%{opacity:0} 92%{opacity:1} }
 
   /* ── CARDS ────────────────────────────────── */
+  :root { --cw: 180px; --ch: 270px; --gap: -28px; }
+
   .scene {
     position: fixed; inset: 0;
-    display:flex; justify-content:center; align-items:center;
-    perspective:1200px; z-index:50;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1200px; z-index: 50;
+    overflow: hidden;
   }
-  .card-wrap { transition:transform 0.5s cubic-bezier(0.23,1,0.32,1); cursor:pointer; width:240px; flex-shrink:0; position:relative; }
-  .card-wrap.nagi { transform:rotate(-2deg) translateY(-30px); z-index:2; margin-right:-32px; }
-  .card-wrap.nagi:hover { transform:rotate(0deg) translateY(-42px) scale(1.06); z-index:10; }
-  .card-wrap.leo  { transform:rotate(2deg) translateY(30px); z-index:3; margin-right:-32px; }
-  .card-wrap.leo:hover  { transform:rotate(0deg) translateY(18px) scale(1.06); z-index:10; }
 
-  .card { width:240px;border-radius:16px;overflow:hidden;position:relative;background:#080810; }
-  .card.nagi { border:1.5px solid #cc2222;box-shadow:0 2px 0 #ff000022,0 8px 32px #00000099,0 0 28px #cc222244; }
+  .cards-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+  }
+
+  .card-wrap {
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    cursor: pointer;
+    width: var(--cw);
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  /* cascade positions — symmetric diagonal */
+  .card-wrap.rene  { transform:rotate(-6deg) translateY(-90px); z-index:1; margin-right:var(--gap); }
+  .card-wrap.nagi  { transform:rotate(-2deg) translateY(-30px); z-index:2; margin-right:var(--gap); }
+  .card-wrap.leo   { transform:rotate( 2deg) translateY( 30px); z-index:3; margin-right:var(--gap); }
+  .card-wrap.abel  { transform:rotate( 6deg) translateY( 90px); z-index:4; margin-right:var(--gap); }
+  .card-wrap.ph1   { transform:rotate( 10deg) translateY(150px); z-index:5; margin-right:var(--gap); }
+  .card-wrap.ph2   { transform:rotate( 14deg) translateY(210px); z-index:6; }
+
+  .card-wrap.rene:hover  { transform:rotate(-2deg) translateY(-102px) scale(1.08); z-index:10; }
+  .card-wrap.nagi:hover  { transform:rotate( 0deg) translateY(-42px)  scale(1.08); z-index:10; }
+  .card-wrap.leo:hover   { transform:rotate( 0deg) translateY( 18px)  scale(1.08); z-index:10; }
+  .card-wrap.abel:hover  { transform:rotate( 2deg) translateY( 78px)  scale(1.08); z-index:10; }
+  .card-wrap.ph1:hover   { transform:rotate( 6deg) translateY(138px)  scale(1.08); z-index:10; }
+  .card-wrap.ph2:hover   { transform:rotate(10deg) translateY(198px)  scale(1.08); z-index:10; }
+
+  .card { width:var(--cw); border-radius:14px; overflow:hidden; position:relative; background:#080810; }
+
+  /* per-character borders */
+  .card.nagi { border:1.5px solid #cc2222; box-shadow:0 2px 0 #ff000022,0 8px 32px #00000099,0 0 28px #cc222244; }
   .card.leo  { border:1.5px solid #6b7c3a; box-shadow:0 2px 0 #6b7c3a22,0 8px 32px #00000099,0 0 20px #6b7c3a33; }
-
-  .card-img { width:100%;height:320px;object-fit:cover;object-position:top center;display:block;filter:contrast(1.05) saturate(1.1); }
-  .card-img-placeholder { width:100%;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:#0d0d1a; }
-  .card-top { position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px; }
-  .card-id { font-size:9px;color:#ffffff44;font-family:monospace;letter-spacing:1px; }
-  .rarity-nagi { font-size:9px;color:#cc2222;font-family:monospace;letter-spacing:2px;border:1px solid #cc222244;padding:2px 6px;border-radius:4px; }
-  .rarity-leo  { font-size:9px;color:#6b7c3a; font-family:monospace;letter-spacing:2px;border:1px solid #6b7c3a44; padding:2px 6px;border-radius:4px; }
-  .card-bottom { position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#080810cc 30%,#080810);padding:2rem 1rem 1rem; }
-  .card-class-nagi { font-size:9px;letter-spacing:2px;color:#cc2222;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
-  .card-class-leo  { font-size:9px;letter-spacing:2px;color:#6b7c3a; text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
-  .card-name { font-size:16px;font-weight:700;color:#f0f0f0;font-family:monospace;letter-spacing:1px;margin:0 0 8px; }
-  .divider-nagi { width:100%;height:1px;background:#cc222233;margin-bottom:8px; }
-  .divider-leo  { width:100%;height:1px;background:#6b7c3a33; margin-bottom:8px; }
-  .stats { display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px; }
-  .stat { text-align:center;background:#ffffff06;border:1px solid #ffffff0a;border-radius:6px;padding:4px 0; }
-  .stat-val-nagi { font-size:14px;font-weight:700;color:#cc2222;font-family:monospace; }
-  .stat-val-leo  { font-size:14px;font-weight:700;color:#6b7c3a; font-family:monospace; }
-  .stat-label { font-size:7px;letter-spacing:2px;color:#666;text-transform:uppercase;font-family:monospace; }
-  .ability-nagi { font-size:9px;color:#999;font-family:monospace;border:1px solid #cc222222;border-radius:6px;padding:6px 8px;line-height:1.6; }
-  .ability-leo  { font-size:9px;color:#999;font-family:monospace;border:1px solid #6b7c3a22; border-radius:6px;padding:6px 8px;line-height:1.6; }
-  .ability-name-nagi { color:#cc2222;font-weight:700; }
-  .ability-name-leo  { color:#6b7c3a; font-weight:700; }
-  .corner-accent { position:absolute;width:14px;height:14px;border-style:solid;opacity:0.6; }
-  .corner-accent.nagi { border-color:#cc2222; }
-  .corner-accent.leo  { border-color:#6b7c3a; }
-  .tl { top:8px;left:8px;  border-width:2px 0 0 2px;border-radius:3px 0 0 0; }
-  .tr { top:8px;right:8px; border-width:2px 2px 0 0;border-radius:0 3px 0 0; }
-
-  /* ── RENE (white) ── */
-  .card-wrap.rene { transform:rotate(-6deg) translateY(-90px); z-index:1; margin-right:-32px; }
-  .card-wrap.rene:hover { transform:rotate(-2deg) translateY(-102px) scale(1.06); z-index:10; }
   .card.rene { border:1.5px solid #cccccc; box-shadow:0 2px 0 #ffffff22,0 8px 32px #00000099,0 0 24px #ffffff22; }
-  .rarity-rene { font-size:9px;color:#cccccc;font-family:monospace;letter-spacing:2px;border:1px solid #cccccc44;padding:2px 6px;border-radius:4px; }
-  .card-class-rene { font-size:9px;letter-spacing:2px;color:#cccccc;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
-  .divider-rene { width:100%;height:1px;background:#cccccc33;margin-bottom:8px; }
-  .stat-val-rene { font-size:14px;font-weight:700;color:#cccccc;font-family:monospace; }
-  .ability-rene { font-size:9px;color:#999;font-family:monospace;border:1px solid #cccccc22;border-radius:6px;padding:6px 8px;line-height:1.6; }
-  .ability-name-rene { color:#cccccc;font-weight:700; }
-  .corner-accent.rene { border-color:#cccccc; }
-
-  /* ── ABEL (blue) ── */
-  .card-wrap.abel { transform:rotate(6deg) translateY(90px); z-index:4; margin-top:0; }
-  .card-wrap.abel:hover { transform:rotate(2deg) translateY(78px) scale(1.06); z-index:10; }
   .card.abel { border:1.5px solid #2a6fcc; box-shadow:0 2px 0 #2a6fcc22,0 8px 32px #00000099,0 0 24px #2a6fcc33; }
-  .rarity-abel { font-size:9px;color:#4d9fff;font-family:monospace;letter-spacing:2px;border:1px solid #2a6fcc44;padding:2px 6px;border-radius:4px; }
-  .card-class-abel { font-size:9px;letter-spacing:2px;color:#4d9fff;text-transform:uppercase;font-family:monospace;margin-bottom:2px; }
-  .divider-abel { width:100%;height:1px;background:#2a6fcc33;margin-bottom:8px; }
-  .stat-val-abel { font-size:14px;font-weight:700;color:#4d9fff;font-family:monospace; }
-  .ability-abel { font-size:9px;color:#999;font-family:monospace;border:1px solid #2a6fcc22;border-radius:6px;padding:6px 8px;line-height:1.6; }
-  .ability-name-abel { color:#4d9fff;font-weight:700; }
-  .corner-accent.abel { border-color:#2a6fcc; }
+  .card.ph1  { border:1.5px solid #555566; box-shadow:0 2px 0 #55556622,0 8px 32px #00000099; }
+  .card.ph2  { border:1.5px solid #555566; box-shadow:0 2px 0 #55556622,0 8px 32px #00000099; }
+
+  .card-img { width:100%; height:var(--ch); object-fit:cover; object-position:top center; display:block; filter:contrast(1.05) saturate(1.1); }
+  .card-img-placeholder { width:100%; height:var(--ch); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; background:#0d0d1a; }
+
+  .card-top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:flex-start; padding:8px 10px; }
+  .card-id  { font-size:8px; color:#ffffff44; font-family:monospace; letter-spacing:1px; }
+
+  .card-bottom { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,#080810cc 30%,#080810); padding:1.6rem 0.85rem 0.85rem; }
+  .card-name   { font-size:13px; font-weight:700; color:#f0f0f0; font-family:monospace; letter-spacing:1px; margin:0 0 6px; }
+  .card-class  { font-size:7.5px; letter-spacing:2px; text-transform:uppercase; font-family:monospace; margin-bottom:2px; }
+
+  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; margin-bottom:6px; }
+  .stat  { text-align:center; background:#ffffff06; border:1px solid #ffffff0a; border-radius:5px; padding:3px 0; }
+  .stat-val   { font-size:12px; font-weight:700; font-family:monospace; }
+  .stat-label { font-size:6.5px; letter-spacing:2px; color:#666; text-transform:uppercase; font-family:monospace; }
+
+  .ability      { font-size:7.5px; color:#999; font-family:monospace; border-radius:5px; padding:5px 7px; line-height:1.6; }
+  .ability-name { font-weight:700; }
+
+  .divider { width:100%; height:1px; margin-bottom:6px; }
+
+  /* rarity badges */
+  .rarity { font-size:8px; font-family:monospace; letter-spacing:2px; padding:2px 5px; border-radius:4px; border:1px solid; }
+
+  /* corner accents */
+  .corner-accent { position:absolute; width:12px; height:12px; border-style:solid; opacity:0.6; }
+  .tl { top:7px; left:7px;  border-width:2px 0 0 2px; border-radius:3px 0 0 0; }
+  .tr { top:7px; right:7px; border-width:2px 2px 0 0; border-radius:0 3px 0 0; }
+
+  /* colour tokens per character */
+  .c-nagi { color:#cc2222; } .b-nagi { border-color:#cc222244; } .d-nagi { background:#cc222233; } .brd-nagi { border-color:#cc222233; }
+  .c-leo  { color:#6b7c3a; } .b-leo  { border-color:#6b7c3a44; } .d-leo  { background:#6b7c3a33; } .brd-leo  { border-color:#6b7c3a33; }
+  .c-rene { color:#cccccc; } .b-rene { border-color:#cccccc44; } .d-rene { background:#cccccc33; } .brd-rene { border-color:#cccccc33; }
+  .c-abel { color:#4d9fff; } .b-abel { border-color:#2a6fcc44; } .d-abel { background:#2a6fcc33; } .brd-abel { border-color:#2a6fcc33; }
+  .c-ph   { color:#666677; } .b-ph   { border-color:#55556644; } .d-ph   { background:#55556633; } .brd-ph   { border-color:#55556633; }
+  .ca-nagi { border-color:#cc2222; } .ca-leo { border-color:#6b7c3a; } .ca-rene { border-color:#cccccc; } .ca-abel { border-color:#2a6fcc; } .ca-ph { border-color:#555566; }
+
+  /* ── MOBILE: swipeable horizontal scroll ── */
+  @media (max-width: 600px) {
+    .scene {
+      position: fixed; inset: 0;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      padding: 0 20px;
+      gap: 16px;
+    }
+    .cards-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 40px 20px;
+      width: max-content;
+    }
+    .card-wrap {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+    /* reset cascade transforms on mobile — stack flat with slight tilt */
+    .card-wrap.rene,
+    .card-wrap.nagi,
+    .card-wrap.leo,
+    .card-wrap.abel,
+    .card-wrap.ph1,
+    .card-wrap.ph2 {
+      transform: rotate(-1.5deg);
+      margin-right: 0;
+    }
+    .card-wrap.rene:hover,
+    .card-wrap.nagi:hover,
+    .card-wrap.leo:hover,
+    .card-wrap.abel:hover,
+    .card-wrap.ph1:hover,
+    .card-wrap.ph2:hover {
+      transform: rotate(0deg) scale(1.04);
+    }
+    .hint { display: none; }
+    .hint-mobile { display: block !important; }
+    .scan-progress, .compass { display: none; }
+  }
+
+  .hint-mobile {
+    display: none;
+    position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+    font-size: 8px; color: #ffffff22; font-family: monospace;
+    letter-spacing: 3px; z-index: 70; white-space: nowrap; text-transform: uppercase;
+  }
 
   .hint {
-    position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);
-    font-size:9px;color:#ffffff18;font-family:monospace;
-    letter-spacing:3px;z-index:70;white-space:nowrap;text-transform:uppercase;
+    position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%);
+    font-size:9px; color:#ffffff18; font-family:monospace;
+    letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase;
   }
 </style>
 </head>
@@ -523,32 +596,25 @@
 
 <!-- CARDS -->
 <div class="scene">
+<div class="cards-inner" id="cards-inner">
 
-  <!-- RENE — posição acima, mesma linha do Nagi -->
+  <!-- RENE -->
   <div class="card-wrap rene">
     <div class="card rene">
-      <img class="card-img" src="https://i.imgur.com/hQl4iX4.jpeg" alt="Rene Ramirez"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-      <div class="card-img-placeholder" style="display:none;">
-        <span style="font-size:24px;color:#cccccc;">👻</span>
-        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
-      </div>
-      <div class="corner-accent rene tl"></div>
-      <div class="corner-accent rene tr"></div>
-      <div class="card-top">
-        <span class="card-id">#0079</span>
-        <span class="rarity-rene">★ LVL 05</span>
-      </div>
+      <img class="card-img" src="https://i.imgur.com/hQl4iX4.jpeg" alt="Rene Ramirez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-rene">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="corner-accent ca-rene tl"></div><div class="corner-accent ca-rene tr"></div>
+      <div class="card-top"><span class="card-id">#0079</span><span class="rarity c-rene b-rene">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class-rene">— O FANTASMA —</div>
+        <div class="card-class c-rene">— O FANTASMA —</div>
         <div class="card-name">RENE RAMIREZ</div>
-        <div class="divider-rene"></div>
+        <div class="divider d-rene"></div>
         <div class="stats">
-          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val-rene">XX</div><div class="stat-label">INT</div></div>
+          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">INT</div></div>
         </div>
-        <div class="ability-rene"><span class="ability-name-rene">FUNÇÃO ›</span> Nunca mais ser esquecido.</div>
+        <div class="ability brd-rene"><span class="ability-name c-rene">FUNÇÃO ›</span> Nunca mais ser esquecido.</div>
       </div>
     </div>
   </div>
@@ -556,92 +622,117 @@
   <!-- NAGI -->
   <div class="card-wrap nagi">
     <div class="card nagi">
-      <img class="card-img" src="https://i.imgur.com/DGi3GFJ.jpeg" alt="Nagi"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-      <div class="card-img-placeholder" style="display:none;">
-        <span style="font-size:24px;color:#cc2222;">鬼</span>
-        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
-      </div>
-      <div class="corner-accent nagi tl"></div>
-      <div class="corner-accent nagi tr"></div>
-      <div class="card-top">
-        <span class="card-id">#0077</span>
-        <span class="rarity-nagi">★ LVL 05</span>
-      </div>
+      <img class="card-img" src="https://i.imgur.com/DGi3GFJ.jpeg" alt="Nagi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-nagi">鬼</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="corner-accent ca-nagi tl"></div><div class="corner-accent ca-nagi tr"></div>
+      <div class="card-top"><span class="card-id">#0077</span><span class="rarity c-nagi b-nagi">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class-nagi">— DEMÔNIO DAS RUAS —</div>
+        <div class="card-class c-nagi">— DEMÔNIO DAS RUAS —</div>
         <div class="card-name">NAGI KAZEHARA</div>
-        <div class="divider-nagi"></div>
+        <div class="divider d-nagi"></div>
         <div class="stats">
-          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val-nagi">XX</div><div class="stat-label">INT</div></div>
+          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">INT</div></div>
         </div>
-        <div class="ability-nagi"><span class="ability-name-nagi">FUNÇÃO ›</span> Defende, da sua forma, aqueles que são indefesos.</div>
+        <div class="ability brd-nagi"><span class="ability-name c-nagi">FUNÇÃO ›</span> Defende, da sua forma, aqueles que são indefesos.</div>
       </div>
     </div>
   </div>
 
+  <!-- LEO -->
   <div class="card-wrap leo">
     <div class="card leo">
-      <img class="card-img" src="https://i.imgur.com/WGnzr4h.jpeg" alt="Leo"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-      <div class="card-img-placeholder" style="display:none;">
-        <span style="font-size:24px;color:#6b7c3a;">🜃</span>
-        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
-      </div>
-      <div class="corner-accent leo tl"></div>
-      <div class="corner-accent leo tr"></div>
-      <div class="card-top">
-        <span class="card-id">#0078</span>
-        <span class="rarity-leo">★ LVL 05</span>
-      </div>
+      <img class="card-img" src="https://i.imgur.com/WGnzr4h.jpeg" alt="Leo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-leo">🜃</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="corner-accent ca-leo tl"></div><div class="corner-accent ca-leo tr"></div>
+      <div class="card-top"><span class="card-id">#0078</span><span class="rarity c-leo b-leo">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class-leo">— LEONIS —</div>
+        <div class="card-class c-leo">— LEONIS —</div>
         <div class="card-name">LEO</div>
-        <div class="divider-leo"></div>
+        <div class="divider d-leo"></div>
         <div class="stats">
-          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val-leo">XX</div><div class="stat-label">INT</div></div>
+          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">INT</div></div>
         </div>
-        <div class="ability-leo"><span class="ability-name-leo">FUNÇÃO ›</span> Entender seu propósito em meio a tanta tragédia.</div>
+        <div class="ability brd-leo"><span class="ability-name c-leo">FUNÇÃO ›</span> Entender seu propósito em meio a tanta tragédia.</div>
       </div>
     </div>
   </div>
 
-  <!-- ABEL — posição abaixo, mesma linha do Leo -->
+  <!-- ABEL -->
   <div class="card-wrap abel">
     <div class="card abel">
-      <img class="card-img" src="https://i.imgur.com/7e1tdzb.jpeg" alt="Abel"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
-      <div class="card-img-placeholder" style="display:none;">
-        <span style="font-size:24px;color:#4d9fff;">◈</span>
-        <span style="font-size:9px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span>
-      </div>
-      <div class="corner-accent abel tl"></div>
-      <div class="corner-accent abel tr"></div>
-      <div class="card-top">
-        <span class="card-id">#0001</span>
-        <span class="rarity-abel">★ LVL 05</span>
-      </div>
+      <img class="card-img" src="https://i.imgur.com/7e1tdzb.jpeg" alt="Abel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-abel">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="corner-accent ca-abel tl"></div><div class="corner-accent ca-abel tr"></div>
+      <div class="card-top"><span class="card-id">#0001</span><span class="rarity c-abel b-abel">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class-abel">— O CAIM —</div>
+        <div class="card-class c-abel">— O FANTASMA —</div>
         <div class="card-name">ABEL</div>
-        <div class="divider-abel"></div>
+        <div class="divider d-abel"></div>
         <div class="stats">
-          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val-abel">XX</div><div class="stat-label">INT</div></div>
+          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">INT</div></div>
         </div>
-        <div class="ability-abel"><span class="ability-name-abel">FUNÇÃO ›</span> Ajudar, acumular, devolver.</div>
+        <div class="ability brd-abel"><span class="ability-name c-abel">FUNÇÃO ›</span> Ajudar, acumular, devolver.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER 1 -->
+  <div class="card-wrap ph1">
+    <div class="card ph1">
+      <div class="card-img-placeholder" style="display:flex;">
+        <span style="font-size:28px;color:#333344;">?</span>
+        <span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span>
+      </div>
+      <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
+      <div class="card-top"><span class="card-id">#????</span><span class="rarity c-ph b-ph">★ LVL ??</span></div>
+      <div class="card-bottom">
+        <div class="card-class c-ph">— CLASSIFICADO —</div>
+        <div class="card-name" style="color:#333344;">??? ??????</div>
+        <div class="divider d-ph"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability brd-ph"><span class="ability-name c-ph">FUNÇÃO ›</span> <span style="color:#2a2a3a;">██████████████████</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER 2 -->
+  <div class="card-wrap ph2">
+    <div class="card ph2">
+      <div class="card-img-placeholder" style="display:flex;">
+        <span style="font-size:28px;color:#333344;">?</span>
+        <span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span>
+      </div>
+      <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
+      <div class="card-top"><span class="card-id">#????</span><span class="rarity c-ph b-ph">★ LVL ??</span></div>
+      <div class="card-bottom">
+        <div class="card-class c-ph">— CLASSIFICADO —</div>
+        <div class="card-name" style="color:#333344;">??? ??????</div>
+        <div class="divider d-ph"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">FOR</div></div>
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">DES</div></div>
+          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">INT</div></div>
+        </div>
+        <div class="ability brd-ph"><span class="ability-name c-ph">FUNÇÃO ›</span> <span style="color:#2a2a3a;">██████████████████</span></div>
       </div>
     </div>
   </div>
 
 </div>
+</div>
 
 <div class="hint">passe o mouse sobre cada card · ward 77 · case 0077-b</div>
+<div class="hint-mobile">◀ deslize para navegar ▶</div>
 
 <script>
 // ── MATRIX COLUMNS ──────────────────────────
@@ -677,7 +768,28 @@ for (let i = 0; i < 8; i++) {
   }, 120);
 }
 
-// ── COUNTDOWN ───────────────────────────────
+// ── RESPONSIVE SCALE ────────────────────────
+function scaleCards() {
+  const isMobile = window.innerWidth <= 600;
+  if (isMobile) return;
+  const inner = document.getElementById('cards-inner');
+  if (!inner) return;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  // reset scale to measure natural size
+  inner.style.transform = '';
+  const rect = inner.getBoundingClientRect();
+  const naturalW = rect.width  || 1200;
+  const naturalH = rect.height || 600;
+  const scaleX = (vw * 0.92) / naturalW;
+  const scaleY = (vh * 0.72) / naturalH;
+  const scale  = Math.min(scaleX, scaleY, 1);
+  inner.style.transform = `scale(${scale})`;
+}
+scaleCards();
+window.addEventListener('resize', scaleCards);
+
+
 let totalSecs = 3 * 3600 + 47 * 60 + 22;
 function fmtTime(s) {
   const h = String(Math.floor(s / 3600)).padStart(2,'0');
