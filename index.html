@@ -59,8 +59,7 @@
 
   /* ── SCAN LINE ────────────────────────────── */
   .scanline {
-    position: fixed; left: 0; right: 0;
-    height: 2px;
+    position: fixed; left: 0; right: 0; height: 2px;
     background: linear-gradient(to right, transparent 0%, rgba(204,34,34,0.15) 20%, rgba(204,34,34,0.25) 50%, rgba(204,34,34,0.15) 80%, transparent 100%);
     z-index: 4; pointer-events: none;
     animation: scan-sweep 10s linear infinite;
@@ -88,36 +87,21 @@
   }
 
   /* ── MATRIX COLUMNS ───────────────────────── */
-  .matrix-layer {
-    position: fixed; inset: 0;
-    z-index: 2; pointer-events: none; overflow: hidden;
-  }
+  .matrix-layer { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
   .m-col {
     position: absolute; top: 0;
-    display: flex; flex-direction: column;
-    gap: 4px;
+    display: flex; flex-direction: column; gap: 4px;
     animation: m-fall linear infinite;
     font-size: 9px; letter-spacing: 0.05em;
-    color: rgba(204,34,34,0.28);
-    user-select: none;
+    color: rgba(204,34,34,0.28); user-select: none;
   }
   .m-col span { display: block; line-height: 1.4; }
   .m-col span.bright { color: rgba(204,34,34,0.7); text-shadow: 0 0 6px rgba(204,34,34,0.5); }
-  @keyframes m-fall {
-    0%   { transform: translateY(-100%); }
-    100% { transform: translateY(110vh); }
-  }
+  @keyframes m-fall { 0%{transform:translateY(-100%)} 100%{transform:translateY(110vh)} }
 
   /* ── DATA LAYER ───────────────────────────── */
-  .data-layer {
-    position: fixed; inset: 0;
-    z-index: 5; pointer-events: none; overflow: hidden;
-  }
-  .dn {
-    position: absolute;
-    font-size: 8px; letter-spacing: 0.12em;
-    white-space: nowrap; user-select: none;
-  }
+  .data-layer { position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+  .dn { position: absolute; font-size: 8px; letter-spacing: 0.12em; white-space: nowrap; user-select: none; }
   .dn.r { color: rgba(204,34,34,0.22); }
   .dn.g { color: rgba(107,124,58,0.22); }
   .dn.w { color: rgba(255,255,255,0.07); }
@@ -140,143 +124,57 @@
   .bracket.br { border-bottom:1px solid; border-right:1px solid; }
 
   /* ── SCAN PROGRESS ────────────────────────── */
-  .scan-progress {
-    position: fixed; bottom: 9vh; left: 2.5%;
-    z-index: 6; pointer-events: none;
-  }
-  .sp-label {
-    font-size: 7px; letter-spacing: 0.25em;
-    color: rgba(204,34,34,0.4); margin-bottom: 4px;
-  }
-  .sp-bar-wrap {
-    width: 140px; height: 6px;
-    border: 1px solid rgba(204,34,34,0.2);
-    border-radius: 2px; overflow: hidden;
-    background: rgba(204,34,34,0.04);
-  }
-  .sp-bar {
-    height: 100%;
-    background: linear-gradient(to right, #cc2222aa, #ff4444cc);
-    box-shadow: 0 0 6px #cc222266;
-    animation: progress-anim 18s linear infinite;
-  }
-  @keyframes progress-anim {
-    0%   { width: 0%; }
-    100% { width: 100%; }
-  }
-  .sp-pct {
-    font-size: 7px; letter-spacing: 0.2em;
-    color: rgba(204,34,34,0.35); margin-top: 3px;
-    animation: pct-count 18s linear infinite;
-  }
+  .scan-progress { position: fixed; bottom: 9vh; left: 2.5%; z-index: 6; pointer-events: none; }
+  .sp-label { font-size: 7px; letter-spacing: 0.25em; color: rgba(204,34,34,0.4); margin-bottom: 4px; }
+  .sp-bar-wrap { width: 140px; height: 6px; border: 1px solid rgba(204,34,34,0.2); border-radius: 2px; overflow: hidden; background: rgba(204,34,34,0.04); }
+  .sp-bar { height: 100%; background: linear-gradient(to right, #cc2222aa, #ff4444cc); box-shadow: 0 0 6px #cc222266; animation: progress-anim 18s linear infinite; }
+  @keyframes progress-anim { 0%{width:0%} 100%{width:100%} }
+  .sp-pct { font-size: 7px; letter-spacing: 0.2em; color: rgba(204,34,34,0.35); margin-top: 3px; }
 
   /* ── COUNTDOWN ────────────────────────────── */
-  .countdown {
-    position: fixed; top: 2.5vh; right: 2.5%;
-    z-index: 6; text-align: right; pointer-events: none;
-  }
-  .cd-label {
-    font-size: 7px; letter-spacing: 0.3em;
-    color: rgba(204,34,34,0.35); margin-bottom: 2px;
-  }
-  .cd-timer {
-    font-size: 22px; letter-spacing: 0.15em;
-    color: rgba(204,34,34,0.55);
-    text-shadow: 0 0 10px rgba(204,34,34,0.3);
-    font-family: 'Share Tech Mono', monospace;
-  }
-  .cd-sub {
-    font-size: 7px; letter-spacing: 0.25em;
-    color: rgba(204,34,34,0.25); margin-top: 2px;
-  }
+  .countdown { position: fixed; top: 2.5vh; right: 2.5%; z-index: 6; text-align: right; pointer-events: none; }
+  .cd-label { font-size: 7px; letter-spacing: 0.3em; color: rgba(204,34,34,0.35); margin-bottom: 2px; }
+  .cd-timer { font-size: 22px; letter-spacing: 0.15em; color: rgba(204,34,34,0.55); text-shadow: 0 0 10px rgba(204,34,34,0.3); font-family: 'Share Tech Mono', monospace; }
+  .cd-sub { font-size: 7px; letter-spacing: 0.25em; color: rgba(204,34,34,0.25); margin-top: 2px; }
 
   /* ── LOG FEED ─────────────────────────────── */
   .log-feed {
     position: fixed; bottom: 0; left: 0; right: 0;
-    height: 7vh; z-index: 6; pointer-events: none;
-    overflow: hidden;
-    padding: 0 2.5%;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding-bottom: 6px;
-    border-top: 1px solid rgba(204,34,34,0.08);
+    height: 7vh; z-index: 6; pointer-events: none; overflow: hidden;
+    padding: 0 2.5%; display: flex; flex-direction: column; justify-content: flex-end;
+    padding-bottom: 6px; border-top: 1px solid rgba(204,34,34,0.08);
     background: linear-gradient(to top, rgba(8,8,16,0.6), transparent);
   }
-  .log-line {
-    font-size: 7px; letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.08);
-    white-space: nowrap; overflow: hidden;
-    animation: log-scroll 2s ease-in-out forwards;
-    margin-bottom: 1px;
-  }
+  .log-line { font-size: 7px; letter-spacing: 0.1em; color: rgba(255,255,255,0.08); white-space: nowrap; overflow: hidden; animation: log-scroll 2s ease-in-out forwards; margin-bottom: 1px; }
   .log-line.r { color: rgba(204,34,34,0.18); }
   .log-line.g { color: rgba(107,124,58,0.18); }
-  @keyframes log-scroll {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes log-scroll { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
   /* ── COMPASS ──────────────────────────────── */
-  .compass {
-    position: fixed; bottom: 9vh; right: 2.5%;
-    z-index: 6; pointer-events: none;
-    width: 52px; height: 52px;
-  }
+  .compass { position: fixed; bottom: 9vh; right: 2.5%; z-index: 6; pointer-events: none; width: 52px; height: 52px; }
   .compass svg { width: 100%; height: 100%; }
 
   /* ── SIGNAL BARS ──────────────────────────── */
-  .signal {
-    position: fixed; top: 2.5vh; left: 2.5%;
-    z-index: 6; pointer-events: none;
-  }
-  .sig-label {
-    font-size: 7px; letter-spacing: 0.25em;
-    color: rgba(107,124,58,0.4); margin-bottom: 4px;
-  }
-  .sig-bars {
-    display: flex; align-items: flex-end; gap: 3px;
-  }
-  .sig-bar {
-    width: 5px; border-radius: 1px;
-    background: rgba(107,124,58,0.6);
-    box-shadow: 0 0 4px rgba(107,124,58,0.4);
-  }
+  .signal { position: fixed; top: 2.5vh; left: 2.5%; z-index: 6; pointer-events: none; }
+  .sig-label { font-size: 7px; letter-spacing: 0.25em; color: rgba(107,124,58,0.4); margin-bottom: 4px; }
+  .sig-bars { display: flex; align-items: flex-end; gap: 3px; }
+  .sig-bar { width: 5px; border-radius: 1px; background: rgba(107,124,58,0.6); box-shadow: 0 0 4px rgba(107,124,58,0.4); }
   .sig-bar:nth-child(1) { height: 6px;  animation: bar-pulse 1.8s 0.0s ease-in-out infinite; }
   .sig-bar:nth-child(2) { height: 10px; animation: bar-pulse 1.8s 0.2s ease-in-out infinite; }
   .sig-bar:nth-child(3) { height: 14px; animation: bar-pulse 1.8s 0.4s ease-in-out infinite; }
   .sig-bar:nth-child(4) { height: 18px; animation: bar-pulse 1.8s 0.6s ease-in-out infinite; }
   .sig-bar:nth-child(5) { height: 22px; animation: bar-pulse 1.8s 0.8s ease-in-out infinite; background: rgba(107,124,58,0.25); box-shadow: none; }
-  @keyframes bar-pulse {
-    0%,100% { opacity: 1; }
-    50%     { opacity: 0.35; }
-  }
-  .sig-status {
-    font-size: 7px; letter-spacing: 0.2em;
-    color: rgba(107,124,58,0.35); margin-top: 3px;
-    animation: blink-slow 3s infinite;
-  }
+  @keyframes bar-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+  .sig-status { font-size: 7px; letter-spacing: 0.2em; color: rgba(107,124,58,0.35); margin-top: 3px; animation: blink-slow 3s infinite; }
   @keyframes blink-slow { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
   /* ── HEX FRAME ────────────────────────────── */
-  .hex-layer {
-    position: fixed; inset: 0;
-    z-index: 48; pointer-events: none;
-    display: flex; justify-content: center; align-items: center;
-  }
-  .hex-frame {
-    position: relative;
-    width: 580px; height: 420px;
-  }
-  .hex-frame svg {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-  }
+  .hex-layer { position: fixed; inset: 0; z-index: 48; pointer-events: none; display: flex; justify-content: center; align-items: center; }
+  .hex-frame { position: relative; width: 580px; height: 420px; }
+  .hex-frame svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   /* ── TITLE ────────────────────────────────── */
-  .title-wrap {
-    position: fixed; top: 0; left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center;
-    padding-top: 2.2vh; z-index: 40; pointer-events: none;
-  }
+  .title-wrap { position: fixed; top: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; padding-top: 2.2vh; z-index: 40; pointer-events: none; }
   .title-bar { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
   .bar-line { height:1px; width:60px; background:linear-gradient(to right,transparent,rgba(204,34,34,0.5)); }
   .bar-line.right { background:linear-gradient(to left,transparent,rgba(204,34,34,0.5)); }
@@ -289,10 +187,7 @@
     text-shadow: 0 0 6px #cc2222, 0 0 20px #cc222277, 0 0 50px #cc222233;
     position: relative; user-select: none;
   }
-  .glitch::before,.glitch::after {
-    content: attr(data-text); position:absolute; top:0; left:0;
-    width:100%; font-family:inherit; font-size:inherit; letter-spacing:inherit;
-  }
+  .glitch::before,.glitch::after { content: attr(data-text); position:absolute; top:0; left:0; width:100%; font-family:inherit; font-size:inherit; letter-spacing:inherit; }
   .glitch::before { color:#ff2222; text-shadow:none; clip-path:polygon(0 0,100% 0,100% 32%,0 32%); animation:glitch-top 5s infinite steps(1); }
   .glitch::after  { color:#3366ff; text-shadow:none; clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%); animation:glitch-bot 5s infinite steps(1); }
   @keyframes glitch-top {
@@ -309,158 +204,213 @@
     56%{transform:translate(-3px,2px);opacity:0.85} 57%{opacity:0}
     81%{transform:translate(2px,-1px);opacity:0.6} 82%{opacity:0}
   }
-
   .title-status { display:flex; align-items:center; gap:16px; margin-top:5px; }
   .status-dot { width:5px;height:5px;border-radius:50%;background:#cc2222;box-shadow:0 0 6px #cc2222;animation:dot-blink 2s infinite; }
   @keyframes dot-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
   .status-text { font-size:8px;letter-spacing:0.3em;color:rgba(204,34,34,0.45);animation:sub-flicker 7s infinite; }
   @keyframes sub-flicker { 0%,100%{opacity:1} 73%{opacity:0.1} 74%{opacity:1} 91%{opacity:0} 92%{opacity:1} }
 
-  /* ── CARDS ────────────────────────────────── */
+  /* ═══════════════════════════════════════════
+     CARDS — NEW AGGRESSIVE DESIGN
+  ═══════════════════════════════════════════ */
   :root { --cw: 180px; --ch: 270px; --gap: -28px; }
 
   .scene {
     position: fixed; inset: 0;
     display: flex; justify-content: center; align-items: center;
-    perspective: 1200px; z-index: 50;
-    overflow: hidden;
+    perspective: 1200px; z-index: 50; overflow: hidden;
   }
-
   .cards-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     transform-origin: center center;
   }
 
   .card-wrap {
     transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
-    cursor: pointer;
+    cursor: pointer; width: var(--cw); flex-shrink: 0; position: relative;
+  }
+  .card-wrap.rene { transform:rotate(-6deg) translateY(-90px); z-index:1; margin-right:var(--gap); }
+  .card-wrap.nagi { transform:rotate(-2deg) translateY(-30px); z-index:2; margin-right:var(--gap); }
+  .card-wrap.leo  { transform:rotate( 2deg) translateY( 30px); z-index:3; margin-right:var(--gap); }
+  .card-wrap.abel { transform:rotate( 6deg) translateY( 90px); z-index:4; margin-right:var(--gap); }
+  .card-wrap.ph1  { transform:rotate(10deg) translateY(150px); z-index:5; margin-right:var(--gap); }
+  .card-wrap.ph2  { transform:rotate(14deg) translateY(210px); z-index:6; }
+
+  .card-wrap.rene:hover { transform:rotate(-2deg) translateY(-102px) scale(1.08); z-index:10; }
+  .card-wrap.nagi:hover { transform:rotate( 0deg) translateY(-42px)  scale(1.08); z-index:10; }
+  .card-wrap.leo:hover  { transform:rotate( 0deg) translateY( 18px)  scale(1.08); z-index:10; }
+  .card-wrap.abel:hover { transform:rotate( 2deg) translateY( 78px)  scale(1.08); z-index:10; }
+  .card-wrap.ph1:hover  { transform:rotate( 6deg) translateY(138px)  scale(1.08); z-index:10; }
+  .card-wrap.ph2:hover  { transform:rotate(10deg) translateY(198px)  scale(1.08); z-index:10; }
+
+  /* ── BASE CARD ───────────────────────────── */
+  .card {
     width: var(--cw);
-    flex-shrink: 0;
+    background: #080810;
     position: relative;
+    overflow: hidden;
   }
 
-  /* cascade positions — symmetric diagonal */
-  .card-wrap.rene  { transform:rotate(-6deg) translateY(-90px); z-index:1; margin-right:var(--gap); }
-  .card-wrap.nagi  { transform:rotate(-2deg) translateY(-30px); z-index:2; margin-right:var(--gap); }
-  .card-wrap.leo   { transform:rotate( 2deg) translateY( 30px); z-index:3; margin-right:var(--gap); }
-  .card-wrap.abel  { transform:rotate( 6deg) translateY( 90px); z-index:4; margin-right:var(--gap); }
-  .card-wrap.ph1   { transform:rotate( 10deg) translateY(150px); z-index:5; margin-right:var(--gap); }
-  .card-wrap.ph2   { transform:rotate( 14deg) translateY(210px); z-index:6; }
+  /* ── 1. TORN EDGES per character ─────────── */
+  .card.nagi {
+    clip-path: polygon(0% 2.5%,1.8% 0%,4.5% 1.5%,7.5% 0%,92.5% 0%,95.5% 1.8%,98.2% 0%,100% 2.5%,100% 97%,98% 100%,94.5% 98%,90.5% 100%,9.5% 100%,5.5% 98%,2% 100%,0% 97%);
+    box-shadow: 0 0 0 1px #cc222244, 0 10px 36px #000000cc, 0 0 28px #cc222244, 0 0 55px #cc222222;
+  }
+  .card.leo {
+    clip-path: polygon(0% 3%,2.5% 0%,5.5% 2%,9% 0%,91% 0%,94.5% 1.5%,97.5% 0%,100% 3%,100% 96.5%,97% 100%,93.5% 98.5%,89.5% 100%,10.5% 100%,6.5% 98.5%,3% 100%,0% 96.5%);
+    box-shadow: 0 0 0 1px #6b7c3a44, 0 10px 36px #000000cc, 0 0 24px #6b7c3a33, 0 0 50px #6b7c3a22;
+  }
+  .card.rene {
+    clip-path: polygon(0% 2%,2.2% 0%,5% 1.8%,8% 0%,92% 0%,95% 2%,97.8% 0%,100% 2%,100% 97.5%,97.5% 100%,94% 98%,90% 100%,10% 100%,6% 98%,2.5% 100%,0% 97.5%);
+    box-shadow: 0 0 0 1px #cccccc33, 0 10px 36px #000000cc, 0 0 22px #ffffff22, 0 0 48px #ffffff11;
+  }
+  .card.abel {
+    clip-path: polygon(0% 3%,1.5% 0%,4% 2.2%,7% 0%,93% 0%,96% 1.8%,98.5% 0%,100% 3%,100% 97%,98.5% 100%,95% 98%,91% 100%,9% 100%,5% 98%,1.5% 100%,0% 97%);
+    box-shadow: 0 0 0 1px #2a6fcc44, 0 10px 36px #000000cc, 0 0 24px #2a6fcc33, 0 0 50px #2a6fcc22;
+  }
+  .card.ph1, .card.ph2 {
+    clip-path: polygon(0% 2.5%,2% 0%,5% 1.5%,8% 0%,92% 0%,95% 2%,98% 0%,100% 2.5%,100% 97.5%,98% 100%,94% 98.5%,90% 100%,10% 100%,6% 98.5%,2% 100%,0% 97.5%);
+    box-shadow: 0 0 0 1px #55556633, 0 10px 36px #000000cc;
+  }
 
-  .card-wrap.rene:hover  { transform:rotate(-2deg) translateY(-102px) scale(1.08); z-index:10; }
-  .card-wrap.nagi:hover  { transform:rotate( 0deg) translateY(-42px)  scale(1.08); z-index:10; }
-  .card-wrap.leo:hover   { transform:rotate( 0deg) translateY( 18px)  scale(1.08); z-index:10; }
-  .card-wrap.abel:hover  { transform:rotate( 2deg) translateY( 78px)  scale(1.08); z-index:10; }
-  .card-wrap.ph1:hover   { transform:rotate( 6deg) translateY(138px)  scale(1.08); z-index:10; }
-  .card-wrap.ph2:hover   { transform:rotate(10deg) translateY(198px)  scale(1.08); z-index:10; }
-
-  .card { width:var(--cw); border-radius:14px; overflow:hidden; position:relative; background:#080810; }
-
-  /* per-character borders */
-  .card.nagi { border:1.5px solid #cc2222; box-shadow:0 2px 0 #ff000022,0 8px 32px #00000099,0 0 28px #cc222244; }
-  .card.leo  { border:1.5px solid #6b7c3a; box-shadow:0 2px 0 #6b7c3a22,0 8px 32px #00000099,0 0 20px #6b7c3a33; }
-  .card.rene { border:1.5px solid #cccccc; box-shadow:0 2px 0 #ffffff22,0 8px 32px #00000099,0 0 24px #ffffff22; }
-  .card.abel { border:1.5px solid #2a6fcc; box-shadow:0 2px 0 #2a6fcc22,0 8px 32px #00000099,0 0 24px #2a6fcc33; }
-  .card.ph1  { border:1.5px solid #555566; box-shadow:0 2px 0 #55556622,0 8px 32px #00000099; }
-  .card.ph2  { border:1.5px solid #555566; box-shadow:0 2px 0 #55556622,0 8px 32px #00000099; }
-
-  .card-img { width:100%; height:var(--ch); object-fit:cover; object-position:top center; display:block; filter:contrast(1.05) saturate(1.1); }
+  /* ── IMAGE ───────────────────────────────── */
+  .card-img { width:100%; height:var(--ch); object-fit:cover; object-position:top center; display:block; }
   .card-img-placeholder { width:100%; height:var(--ch); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; background:#0d0d1a; }
 
+  /* 3. brutal image treatment per character */
+  .card.nagi  .card-img { filter: contrast(1.55) saturate(0.18) brightness(0.82); }
+  .card.leo   .card-img { filter: contrast(1.5)  saturate(0.22) brightness(0.80); }
+  .card.rene  .card-img { filter: contrast(1.5)  saturate(0.15) brightness(0.78); }
+  .card.abel  .card-img { filter: contrast(1.45) saturate(0.20) brightness(0.82); }
+
+  /* neon bleed overlay */
+  .neon-bleed {
+    position:absolute; top:0; left:0; right:0; height:var(--ch);
+    pointer-events:none; mix-blend-mode:screen;
+  }
+  .card.nagi .neon-bleed { background:linear-gradient(140deg,rgba(204,34,34,0.22) 0%,transparent 55%,rgba(20,40,200,0.10) 100%); }
+  .card.leo  .neon-bleed { background:linear-gradient(140deg,rgba(107,124,58,0.20) 0%,transparent 55%,rgba(20,80,40,0.10) 100%); }
+  .card.rene .neon-bleed { background:linear-gradient(140deg,rgba(200,200,220,0.18) 0%,transparent 55%,rgba(100,100,255,0.08) 100%); }
+  .card.abel .neon-bleed { background:linear-gradient(140deg,rgba(42,111,204,0.22) 0%,transparent 55%,rgba(0,200,255,0.08) 100%); }
+
+  /* glitch slices on image */
+  .glitch-img { position:absolute; top:0; left:0; right:0; height:var(--ch); pointer-events:none; overflow:hidden; }
+
+  .card.nagi .glitch-img::before { content:''; position:absolute; left:0; right:0; height:5px; background:rgba(204,34,34,0.4); mix-blend-mode:screen; animation:nagi-ga 6s infinite steps(1); }
+  .card.nagi .glitch-img::after  { content:''; position:absolute; left:0; right:0; height:3px; background:rgba(40,80,255,0.35); mix-blend-mode:screen; animation:nagi-gb 9s infinite steps(1); }
+  @keyframes nagi-ga { 0%,100%{opacity:0;top:28%} 4%{opacity:1;top:28%;transform:translateX(-5px)} 5%{opacity:0} 44%{opacity:0;top:52%} 45%{opacity:1;top:52%;transform:translateX(4px)} 46%{opacity:0} 80%{opacity:0;top:18%} 81%{opacity:1;top:18%;transform:translateX(-3px)} 82%{opacity:0} }
+  @keyframes nagi-gb { 0%,100%{opacity:0} 18%{opacity:1;top:60%;transform:translateX(6px)} 19%{opacity:0} 65%{opacity:1;top:38%;transform:translateX(-5px)} 66%{opacity:0} }
+
+  .card.leo .glitch-img::before { content:''; position:absolute; left:0; right:0; height:4px; background:rgba(107,124,58,0.45); mix-blend-mode:screen; animation:leo-ga 8s infinite steps(1); }
+  .card.leo .glitch-img::after  { content:''; position:absolute; left:0; right:0; height:3px; background:rgba(40,160,80,0.30); mix-blend-mode:screen; animation:leo-gb 11s infinite steps(1); }
+  @keyframes leo-ga { 0%,100%{opacity:0;top:35%} 7%{opacity:1;top:35%;transform:translateX(4px)} 8%{opacity:0} 55%{opacity:0;top:58%} 56%{opacity:1;top:58%;transform:translateX(-4px)} 57%{opacity:0} }
+  @keyframes leo-gb { 0%,100%{opacity:0} 30%{opacity:1;top:45%;transform:translateX(5px)} 31%{opacity:0} 78%{opacity:1;top:22%;transform:translateX(-3px)} 79%{opacity:0} }
+
+  .card.rene .glitch-img::before { content:''; position:absolute; left:0; right:0; height:4px; background:rgba(200,200,255,0.35); mix-blend-mode:screen; animation:rene-ga 10s infinite steps(1); }
+  .card.rene .glitch-img::after  { content:''; position:absolute; left:0; right:0; height:3px; background:rgba(100,100,255,0.25); mix-blend-mode:screen; animation:rene-gb 13s infinite steps(1); }
+  @keyframes rene-ga { 0%,100%{opacity:0;top:40%} 12%{opacity:1;top:40%;transform:translateX(-4px)} 13%{opacity:0} 60%{opacity:0;top:25%} 61%{opacity:1;top:25%;transform:translateX(3px)} 62%{opacity:0} }
+  @keyframes rene-gb { 0%,100%{opacity:0} 35%{opacity:1;top:55%;transform:translateX(-6px)} 36%{opacity:0} 82%{opacity:1;top:35%;transform:translateX(4px)} 83%{opacity:0} }
+
+  .card.abel .glitch-img::before { content:''; position:absolute; left:0; right:0; height:5px; background:rgba(42,111,204,0.45); mix-blend-mode:screen; animation:abel-ga 7s infinite steps(1); }
+  .card.abel .glitch-img::after  { content:''; position:absolute; left:0; right:0; height:3px; background:rgba(0,200,255,0.30); mix-blend-mode:screen; animation:abel-gb 10s infinite steps(1); }
+  @keyframes abel-ga { 0%,100%{opacity:0;top:32%} 6%{opacity:1;top:32%;transform:translateX(5px)} 7%{opacity:0} 50%{opacity:0;top:62%} 51%{opacity:1;top:62%;transform:translateX(-4px)} 52%{opacity:0} }
+  @keyframes abel-gb { 0%,100%{opacity:0} 22%{opacity:1;top:48%;transform:translateX(-5px)} 23%{opacity:0} 72%{opacity:1;top:20%;transform:translateX(4px)} 73%{opacity:0} }
+
+  /* ── 5. DAMAGE LAYER ─────────────────────── */
+  .damage { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+
+  .card.nagi .damage::before { content:''; position:absolute; inset:0; background: linear-gradient(35deg,transparent 41%,rgba(255,255,255,0.04) 41.4%,transparent 41.8%), linear-gradient(35deg,transparent 44.5%,rgba(255,255,255,0.025) 44.9%,transparent 45.3%), linear-gradient(215deg,transparent 33%,rgba(255,255,255,0.03) 33.4%,transparent 33.8%), linear-gradient(162deg,transparent 58%,rgba(0,0,0,0.4) 59%,transparent 60%); }
+  .card.nagi .damage::after  { content:''; position:absolute; top:18%; left:-8%; width:30%; height:2px; background:linear-gradient(to right,transparent,rgba(204,34,34,0.5),transparent); transform:rotate(35deg); box-shadow:0 5px 0 rgba(204,34,34,0.18),0 10px 0 rgba(204,34,34,0.08); }
+
+  .card.leo .damage::before { content:''; position:absolute; inset:0; background: linear-gradient(148deg,transparent 38%,rgba(255,255,255,0.035) 38.4%,transparent 38.8%), linear-gradient(148deg,transparent 42.5%,rgba(255,255,255,0.02) 42.9%,transparent 43.3%), linear-gradient(328deg,transparent 45%,rgba(255,255,255,0.025) 45.4%,transparent 45.8%), linear-gradient(30deg,transparent 63%,rgba(0,0,0,0.38) 64%,transparent 65%); }
+  .card.leo .damage::after  { content:''; position:absolute; top:22%; right:-6%; width:28%; height:2px; background:linear-gradient(to right,transparent,rgba(107,124,58,0.45),transparent); transform:rotate(-35deg); box-shadow:0 5px 0 rgba(107,124,58,0.15),0 10px 0 rgba(107,124,58,0.07); }
+
+  .card.rene .damage::before { content:''; position:absolute; inset:0; background: linear-gradient(55deg,transparent 36%,rgba(255,255,255,0.04) 36.4%,transparent 36.8%), linear-gradient(235deg,transparent 28%,rgba(255,255,255,0.03) 28.4%,transparent 28.8%), linear-gradient(10deg,transparent 50%,rgba(0,0,0,0.35) 51%,transparent 52%); }
+  .card.rene .damage::after  { content:''; position:absolute; top:25%; left:-5%; width:26%; height:2px; background:linear-gradient(to right,transparent,rgba(200,200,220,0.4),transparent); transform:rotate(50deg); box-shadow:0 5px 0 rgba(200,200,220,0.12); }
+
+  .card.abel .damage::before { content:''; position:absolute; inset:0; background: linear-gradient(125deg,transparent 43%,rgba(255,255,255,0.035) 43.4%,transparent 43.8%), linear-gradient(305deg,transparent 38%,rgba(255,255,255,0.025) 38.4%,transparent 38.8%), linear-gradient(80deg,transparent 55%,rgba(0,0,0,0.4) 56%,transparent 57%); }
+  .card.abel .damage::after  { content:''; position:absolute; top:20%; right:-7%; width:32%; height:2px; background:linear-gradient(to right,transparent,rgba(42,111,204,0.45),transparent); transform:rotate(-40deg); box-shadow:0 5px 0 rgba(42,111,204,0.15); }
+
+  /* burn corners */
+  .burn { position:absolute; pointer-events:none; }
+  .card.nagi .burn { bottom:0; right:0; width:70px; height:70px; background:radial-gradient(circle at 100% 100%,rgba(204,34,34,0.25) 0%,transparent 70%); }
+  .card.leo  .burn { bottom:0; left:0;  width:65px; height:65px; background:radial-gradient(circle at 0%   100%,rgba(107,124,58,0.22) 0%,transparent 70%); }
+  .card.rene .burn { bottom:0; right:0; width:60px; height:60px; background:radial-gradient(circle at 100% 100%,rgba(200,200,220,0.18) 0%,transparent 70%); }
+  .card.abel .burn { bottom:0; left:0;  width:68px; height:68px; background:radial-gradient(circle at 0%   100%,rgba(42,111,204,0.22) 0%,transparent 70%); }
+
+  /* ── CARD TOP ────────────────────────────── */
   .card-top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:flex-start; padding:8px 10px; }
-  .card-id  { font-size:8px; color:#ffffff44; font-family:monospace; letter-spacing:1px; }
-
-  .card-bottom { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,#080810cc 30%,#080810); padding:1.6rem 0.85rem 0.85rem; }
-  .card-name   { font-size:13px; font-weight:700; color:#f0f0f0; font-family:monospace; letter-spacing:1px; margin:0 0 6px; }
-  .card-class  { font-size:7.5px; letter-spacing:2px; text-transform:uppercase; font-family:monospace; margin-bottom:2px; }
-
-  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; margin-bottom:6px; }
-  .stat  { text-align:center; background:#ffffff06; border:1px solid #ffffff0a; border-radius:5px; padding:3px 0; }
-  .stat-val   { font-size:12px; font-weight:700; font-family:monospace; }
-  .stat-label { font-size:6.5px; letter-spacing:2px; color:#666; text-transform:uppercase; font-family:monospace; }
-
-  .ability      { font-size:7.5px; color:#999; font-family:monospace; border-radius:5px; padding:5px 7px; line-height:1.6; }
-  .ability-name { font-weight:700; }
-
-  .divider { width:100%; height:1px; margin-bottom:6px; }
-
-  /* rarity badges */
-  .rarity { font-size:8px; font-family:monospace; letter-spacing:2px; padding:2px 5px; border-radius:4px; border:1px solid; }
+  .card-id  { font-size:8px; color:#ffffff33; font-family:monospace; letter-spacing:1px; }
+  .rarity   { font-size:8px; font-family:monospace; letter-spacing:2px; padding:2px 5px; border-radius:3px; border:1px solid; }
 
   /* corner accents */
-  .corner-accent { position:absolute; width:12px; height:12px; border-style:solid; opacity:0.6; }
+  .corner-accent { position:absolute; width:12px; height:12px; border-style:solid; opacity:0.7; }
   .tl { top:7px; left:7px;  border-width:2px 0 0 2px; border-radius:3px 0 0 0; }
   .tr { top:7px; right:7px; border-width:2px 2px 0 0; border-radius:0 3px 0 0; }
 
-  /* colour tokens per character */
-  .c-nagi { color:#cc2222; } .b-nagi { border-color:#cc222244; } .d-nagi { background:#cc222233; } .brd-nagi { border-color:#cc222233; }
-  .c-leo  { color:#6b7c3a; } .b-leo  { border-color:#6b7c3a44; } .d-leo  { background:#6b7c3a33; } .brd-leo  { border-color:#6b7c3a33; }
-  .c-rene { color:#cccccc; } .b-rene { border-color:#cccccc44; } .d-rene { background:#cccccc33; } .brd-rene { border-color:#cccccc33; }
-  .c-abel { color:#4d9fff; } .b-abel { border-color:#2a6fcc44; } .d-abel { background:#2a6fcc33; } .brd-abel { border-color:#2a6fcc33; }
-  .c-ph   { color:#666677; } .b-ph   { border-color:#55556644; } .d-ph   { background:#55556633; } .brd-ph   { border-color:#55556633; }
-  .ca-nagi { border-color:#cc2222; } .ca-leo { border-color:#6b7c3a; } .ca-rene { border-color:#cccccc; } .ca-abel { border-color:#2a6fcc; } .ca-ph { border-color:#555566; }
+  /* ── CARD BOTTOM ─────────────────────────── */
+  .card-bottom { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,#080810e0 22%,#080810); padding:1.6rem 0.85rem 0.85rem; }
+  .card-class  { font-size:7.5px; letter-spacing:2px; text-transform:uppercase; font-family:monospace; margin-bottom:3px; border-left:2px solid; padding-left:6px; }
+  .card-name   { font-size:13px; font-weight:700; color:#f0f0f0; font-family:monospace; letter-spacing:1px; margin:0 0 7px; }
+  .divider     { width:100%; height:1px; margin-bottom:7px; }
 
-  /* ── MOBILE: swipeable horizontal scroll ── */
+  /* ── 6. STAT BARS ────────────────────────── */
+  .stat-bars-wrap { display:flex; flex-direction:column; gap:5px; margin-bottom:7px; }
+  .stat-row       { display:flex; align-items:center; gap:5px; }
+  .sr-label { font-size:6px; letter-spacing:2px; color:#555; text-transform:uppercase; font-family:monospace; width:18px; flex-shrink:0; }
+  .sr-track { flex:1; height:4px; background:rgba(255,255,255,0.04); border-radius:2px; overflow:hidden; }
+  .sr-fill  { height:100%; border-radius:2px; }
+  .sr-val   { font-size:8px; font-family:monospace; width:22px; text-align:right; flex-shrink:0; }
+
+  /* fill animations per character */
+  .card.nagi .sr-track { border:1px solid rgba(204,34,34,0.15); }
+  .card.nagi .sr-fill  { background:linear-gradient(to right,#770000,#cc2222); box-shadow:0 0 5px #cc222288; animation:pulse-r 3s ease-in-out infinite; }
+  .card.nagi .sr-val   { color:#cc2222; }
+  @keyframes pulse-r   { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
+
+  .card.leo .sr-track { border:1px solid rgba(107,124,58,0.15); }
+  .card.leo .sr-fill  { background:linear-gradient(to right,#3a4a1a,#6b7c3a); box-shadow:0 0 5px #6b7c3a88; animation:pulse-g 3s ease-in-out infinite; }
+  .card.leo .sr-val   { color:#6b7c3a; }
+  @keyframes pulse-g   { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.35)} }
+
+  .card.rene .sr-track { border:1px solid rgba(200,200,220,0.15); }
+  .card.rene .sr-fill  { background:linear-gradient(to right,#888899,#cccccc); box-shadow:0 0 5px #cccccc66; animation:pulse-w 3s ease-in-out infinite; }
+  .card.rene .sr-val   { color:#cccccc; }
+  @keyframes pulse-w   { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.3)} }
+
+  .card.abel .sr-track { border:1px solid rgba(42,111,204,0.15); }
+  .card.abel .sr-fill  { background:linear-gradient(to right,#153a66,#2a6fcc); box-shadow:0 0 5px #2a6fcc88; animation:pulse-b 3s ease-in-out infinite; }
+  .card.abel .sr-val   { color:#4d9fff; }
+  @keyframes pulse-b   { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
+
+  /* ── ABILITY ─────────────────────────────── */
+  .ability      { font-size:7.5px; color:#888; font-family:monospace; border-radius:5px; padding:5px 7px; line-height:1.6; }
+  .ability-name { font-weight:700; }
+
+  /* ── PLACEHOLDER CARDS (unchanged style) ── */
+  .card.ph1, .card.ph2 { border-radius:12px; }
+
+  /* ── COLOUR TOKENS ───────────────────────── */
+  .c-nagi{color:#cc2222} .b-nagi{border-color:#cc222244} .d-nagi{background:#cc222233} .brd-nagi{border:1px solid #cc222222} .ca-nagi{border-color:#cc2222}
+  .c-leo {color:#6b7c3a} .b-leo {border-color:#6b7c3a44} .d-leo {background:#6b7c3a33} .brd-leo {border:1px solid #6b7c3a22} .ca-leo {border-color:#6b7c3a}
+  .c-rene{color:#cccccc} .b-rene{border-color:#cccccc44} .d-rene{background:#cccccc33} .brd-rene{border:1px solid #cccccc22} .ca-rene{border-color:#cccccc}
+  .c-abel{color:#4d9fff} .b-abel{border-color:#2a6fcc44} .d-abel{background:#2a6fcc33} .brd-abel{border:1px solid #2a6fcc22} .ca-abel{border-color:#2a6fcc}
+  .c-ph  {color:#666677} .b-ph  {border-color:#55556644} .d-ph  {background:#55556633} .brd-ph  {border:1px solid #55556622} .ca-ph  {border-color:#555566}
+
+  /* ── MOBILE ──────────────────────────────── */
   @media (max-width: 600px) {
-    .scene {
-      position: fixed; inset: 0;
-      align-items: center;
-      justify-content: flex-start;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-      padding: 0 20px;
-      gap: 16px;
-    }
-    .cards-inner {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 40px 20px;
-      width: max-content;
-    }
-    .card-wrap {
-      scroll-snap-align: center;
-      flex-shrink: 0;
-    }
-    /* reset cascade transforms on mobile — stack flat with slight tilt */
-    .card-wrap.rene,
-    .card-wrap.nagi,
-    .card-wrap.leo,
-    .card-wrap.abel,
-    .card-wrap.ph1,
-    .card-wrap.ph2 {
-      transform: rotate(-1.5deg);
-      margin-right: 0;
-    }
-    .card-wrap.rene:hover,
-    .card-wrap.nagi:hover,
-    .card-wrap.leo:hover,
-    .card-wrap.abel:hover,
-    .card-wrap.ph1:hover,
-    .card-wrap.ph2:hover {
-      transform: rotate(0deg) scale(1.04);
-    }
-    .hint { display: none; }
-    .hint-mobile { display: block !important; }
-    .scan-progress, .compass { display: none; }
+    .scene { align-items:center; justify-content:flex-start; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; padding:0 20px; gap:16px; }
+    .cards-inner { display:flex; align-items:center; gap:16px; padding:40px 20px; width:max-content; }
+    .card-wrap { scroll-snap-align:center; flex-shrink:0; }
+    .card-wrap.rene,.card-wrap.nagi,.card-wrap.leo,.card-wrap.abel,.card-wrap.ph1,.card-wrap.ph2 { transform:rotate(-1.5deg); margin-right:0; }
+    .card-wrap.rene:hover,.card-wrap.nagi:hover,.card-wrap.leo:hover,.card-wrap.abel:hover,.card-wrap.ph1:hover,.card-wrap.ph2:hover { transform:rotate(0deg) scale(1.04); }
+    .hint { display:none; }
+    .hint-mobile { display:block !important; }
+    .scan-progress,.compass { display:none; }
   }
 
-  .hint-mobile {
-    display: none;
-    position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
-    font-size: 8px; color: #ffffff22; font-family: monospace;
-    letter-spacing: 3px; z-index: 70; white-space: nowrap; text-transform: uppercase;
-  }
-
-  .hint {
-    position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%);
-    font-size:9px; color:#ffffff18; font-family:monospace;
-    letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase;
-  }
+  .hint-mobile { display:none; position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); font-size:8px; color:#ffffff22; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
+  .hint        { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%); font-size:9px; color:#ffffff18; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
 </style>
 </head>
 <body>
@@ -471,33 +421,25 @@
 <div class="vignette"></div>
 <div class="scanline"></div>
 <div class="pulse"></div>
-
-<!-- MATRIX COLUMNS — injected by JS -->
 <div class="matrix-layer" id="matrix"></div>
 
-<!-- HEX FRAME around cards -->
+<!-- HEX FRAME -->
 <div class="hex-layer">
   <div class="hex-frame">
     <svg viewBox="0 0 580 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- outer hex-ish frame -->
-      <polyline points="40,0 540,0 580,40 580,380 540,420 40,420 0,380 0,40 40,0"
-        stroke="rgba(204,34,34,0.12)" stroke-width="1" fill="none"/>
-      <!-- inner frame -->
-      <polyline points="50,10 530,10 570,50 570,370 530,410 50,410 10,370 10,50 50,10"
-        stroke="rgba(204,34,34,0.06)" stroke-width="1" fill="none"/>
-      <!-- corner ticks red -->
-      <line x1="40" y1="0"  x2="40"  y2="20" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
-      <line x1="0"  y1="40" x2="20"  y2="40" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
-      <line x1="540" y1="0"  x2="540" y2="20" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
-      <line x1="580" y1="40" x2="560" y2="40" stroke="rgba(204,34,34,0.5)" stroke-width="1"/>
+      <polyline points="40,0 540,0 580,40 580,380 540,420 40,420 0,380 0,40 40,0" stroke="rgba(204,34,34,0.12)" stroke-width="1" fill="none"/>
+      <polyline points="50,10 530,10 570,50 570,370 530,410 50,410 10,370 10,50 50,10" stroke="rgba(204,34,34,0.06)" stroke-width="1" fill="none"/>
+      <line x1="40"  y1="0"   x2="40"  y2="20"  stroke="rgba(204,34,34,0.5)"  stroke-width="1"/>
+      <line x1="0"   y1="40"  x2="20"  y2="40"  stroke="rgba(204,34,34,0.5)"  stroke-width="1"/>
+      <line x1="540" y1="0"   x2="540" y2="20"  stroke="rgba(204,34,34,0.5)"  stroke-width="1"/>
+      <line x1="580" y1="40"  x2="560" y2="40"  stroke="rgba(204,34,34,0.5)"  stroke-width="1"/>
       <line x1="40"  y1="420" x2="40"  y2="400" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
       <line x1="0"   y1="380" x2="20"  y2="380" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
       <line x1="540" y1="420" x2="540" y2="400" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
       <line x1="580" y1="380" x2="560" y2="380" stroke="rgba(107,124,58,0.5)" stroke-width="1"/>
-      <!-- label tags -->
-      <text x="46" y="11"  fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-A</text>
-      <text x="460" y="11" fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-B</text>
-      <text x="46" y="418" fill="rgba(107,124,58,0.35)" font-family="monospace" font-size="6" letter-spacing="2">LOCK</text>
+      <text x="46"  y="11"  fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-A</text>
+      <text x="460" y="11"  fill="rgba(204,34,34,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TGT-B</text>
+      <text x="46"  y="418" fill="rgba(107,124,58,0.35)" font-family="monospace" font-size="6" letter-spacing="2">LOCK</text>
       <text x="452" y="418" fill="rgba(107,124,58,0.35)" font-family="monospace" font-size="6" letter-spacing="2">TRACK</text>
     </svg>
   </div>
@@ -515,12 +457,10 @@
   <div class="dn w" style="bottom:17%;right:3%">UNIT : KAZEHARA / LEONIS / RAMIREZ / ABEL</div>
   <div class="dn w" style="top:48%;left:2%">[ SYS:ON ]</div>
   <div class="dn w" style="top:48%;right:2%">[ REC:ON ]</div>
-
   <div class="ch r" style="top:calc(8% + 2px);left:calc(3% + 172px)"></div>
   <div class="ch g" style="top:calc(8% + 2px);right:calc(3% + 122px)"></div>
   <div class="ch r" style="bottom:calc(22% + 2px);left:calc(3% + 75px)"></div>
   <div class="ch g" style="bottom:calc(22% + 2px);right:calc(3% + 110px)"></div>
-
   <div class="bracket r tl" style="top:5%;left:1.5%"></div>
   <div class="bracket r tr" style="top:5%;right:1.5%"></div>
   <div class="bracket g bl" style="bottom:12%;left:1.5%"></div>
@@ -530,7 +470,7 @@
 <!-- SCAN PROGRESS -->
 <div class="scan-progress">
   <div class="sp-label">SCAN PROGRESS</div>
-  <div class="sp-bar-wrap"><div class="sp-bar" id="sp-bar"></div></div>
+  <div class="sp-bar-wrap"><div class="sp-bar"></div></div>
   <div class="sp-pct" id="sp-pct">0%</div>
 </div>
 
@@ -541,15 +481,12 @@
   <div class="cd-sub">// WARD 77 CLEARANCE //</div>
 </div>
 
-<!-- SIGNAL BARS -->
+<!-- SIGNAL -->
 <div class="signal">
   <div class="sig-label">SIGNAL</div>
   <div class="sig-bars">
-    <div class="sig-bar"></div>
-    <div class="sig-bar"></div>
-    <div class="sig-bar"></div>
-    <div class="sig-bar"></div>
-    <div class="sig-bar"></div>
+    <div class="sig-bar"></div><div class="sig-bar"></div><div class="sig-bar"></div>
+    <div class="sig-bar"></div><div class="sig-bar"></div>
   </div>
   <div class="sig-status">ACQUIRING...</div>
 </div>
@@ -563,11 +500,10 @@
     <line x1="26" y1="44" x2="26" y2="50" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
     <line x1="2"  y1="26" x2="8"  y2="26" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
     <line x1="44" y1="26" x2="50" y2="26" stroke="rgba(204,34,34,0.2)" stroke-width="1"/>
-    <text x="24" y="13"  fill="rgba(204,34,34,0.6)" font-family="monospace" font-size="5">N</text>
-    <text x="24" y="44"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">S</text>
-    <text x="4"  y="28"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">W</text>
-    <text x="43" y="28"  fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">E</text>
-    <!-- needle -->
+    <text x="24" y="13" fill="rgba(204,34,34,0.6)"  font-family="monospace" font-size="5">N</text>
+    <text x="24" y="44" fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">S</text>
+    <text x="4"  y="28" fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">W</text>
+    <text x="43" y="28" fill="rgba(204,34,34,0.25)" font-family="monospace" font-size="5">E</text>
     <g id="compass-needle">
       <polygon points="26,10 28,26 26,24 24,26" fill="rgba(204,34,34,0.7)"/>
       <polygon points="26,42 28,26 26,28 24,26" fill="rgba(204,34,34,0.2)"/>
@@ -603,16 +539,20 @@
     <div class="card rene">
       <img class="card-img" src="https://i.imgur.com/hQl4iX4.jpeg" alt="Rene Ramirez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-rene">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="neon-bleed"></div>
+      <div class="glitch-img"></div>
+      <div class="damage"></div>
+      <div class="burn"></div>
       <div class="corner-accent ca-rene tl"></div><div class="corner-accent ca-rene tr"></div>
       <div class="card-top"><span class="card-id">#0079</span><span class="rarity c-rene b-rene">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class c-rene">— O FANTASMA —</div>
+        <div class="card-class c-rene" style="border-color:#cccccc;">— O FANTASMA —</div>
         <div class="card-name">RENE RAMIREZ</div>
         <div class="divider d-rene"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-rene">XX</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:65%"></div></div><div class="sr-val">65</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:88%;animation-delay:0.3s"></div></div><div class="sr-val">88</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:95%;animation-delay:0.6s"></div></div><div class="sr-val">95</div></div>
         </div>
         <div class="ability brd-rene"><span class="ability-name c-rene">FUNÇÃO ›</span> Nunca mais ser esquecido.</div>
       </div>
@@ -624,16 +564,20 @@
     <div class="card nagi">
       <img class="card-img" src="https://i.imgur.com/DGi3GFJ.jpeg" alt="Nagi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-nagi">鬼</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="neon-bleed"></div>
+      <div class="glitch-img"></div>
+      <div class="damage"></div>
+      <div class="burn"></div>
       <div class="corner-accent ca-nagi tl"></div><div class="corner-accent ca-nagi tr"></div>
       <div class="card-top"><span class="card-id">#0077</span><span class="rarity c-nagi b-nagi">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class c-nagi">— DEMÔNIO DAS RUAS —</div>
+        <div class="card-class c-nagi" style="border-color:#cc2222;">— DEMÔNIO DAS RUAS —</div>
         <div class="card-name">NAGI KAZEHARA</div>
         <div class="divider d-nagi"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-nagi">XX</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:78%"></div></div><div class="sr-val">78</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:94%;animation-delay:0.3s"></div></div><div class="sr-val">94</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:61%;animation-delay:0.6s"></div></div><div class="sr-val">61</div></div>
         </div>
         <div class="ability brd-nagi"><span class="ability-name c-nagi">FUNÇÃO ›</span> Defende, da sua forma, aqueles que são indefesos.</div>
       </div>
@@ -645,16 +589,20 @@
     <div class="card leo">
       <img class="card-img" src="https://i.imgur.com/WGnzr4h.jpeg" alt="Leo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-leo">🜃</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="neon-bleed"></div>
+      <div class="glitch-img"></div>
+      <div class="damage"></div>
+      <div class="burn"></div>
       <div class="corner-accent ca-leo tl"></div><div class="corner-accent ca-leo tr"></div>
       <div class="card-top"><span class="card-id">#0078</span><span class="rarity c-leo b-leo">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class c-leo">— LEONIS —</div>
+        <div class="card-class c-leo" style="border-color:#6b7c3a;">— LEONIS —</div>
         <div class="card-name">LEO</div>
         <div class="divider d-leo"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-leo">XX</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:85%"></div></div><div class="sr-val">85</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:72%;animation-delay:0.3s"></div></div><div class="sr-val">72</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:88%;animation-delay:0.6s"></div></div><div class="sr-val">88</div></div>
         </div>
         <div class="ability brd-leo"><span class="ability-name c-leo">FUNÇÃO ›</span> Entender seu propósito em meio a tanta tragédia.</div>
       </div>
@@ -666,16 +614,20 @@
     <div class="card abel">
       <img class="card-img" src="https://i.imgur.com/7e1tdzb.jpeg" alt="Abel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-abel">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="neon-bleed"></div>
+      <div class="glitch-img"></div>
+      <div class="damage"></div>
+      <div class="burn"></div>
       <div class="corner-accent ca-abel tl"></div><div class="corner-accent ca-abel tr"></div>
       <div class="card-top"><span class="card-id">#0001</span><span class="rarity c-abel b-abel">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class c-abel">— O CAIM —</div>
+        <div class="card-class c-abel" style="border-color:#2a6fcc;">— O CAIM —</div>
         <div class="card-name">ABEL</div>
         <div class="divider d-abel"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-abel">XX</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:91%"></div></div><div class="sr-val">91</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:76%;animation-delay:0.3s"></div></div><div class="sr-val">76</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:83%;animation-delay:0.6s"></div></div><div class="sr-val">83</div></div>
         </div>
         <div class="ability brd-abel"><span class="ability-name c-abel">FUNÇÃO ›</span> Ajudar, acumular, devolver.</div>
       </div>
@@ -685,20 +637,17 @@
   <!-- PLACEHOLDER 1 -->
   <div class="card-wrap ph1">
     <div class="card ph1">
-      <div class="card-img-placeholder" style="display:flex;">
-        <span style="font-size:28px;color:#333344;">?</span>
-        <span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span>
-      </div>
+      <div class="card-img-placeholder" style="display:flex;"><span style="font-size:28px;color:#333344;">?</span><span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span></div>
       <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
       <div class="card-top"><span class="card-id">#????</span><span class="rarity c-ph b-ph">★ LVL ??</span></div>
       <div class="card-bottom">
-        <div class="card-class c-ph">— CLASSIFICADO —</div>
+        <div class="card-class c-ph" style="border-color:#555566;">— CLASSIFICADO —</div>
         <div class="card-name" style="color:#333344;">??? ??????</div>
         <div class="divider d-ph"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
         </div>
         <div class="ability brd-ph"><span class="ability-name c-ph">FUNÇÃO ›</span> <span style="color:#2a2a3a;">██████████████████</span></div>
       </div>
@@ -708,20 +657,17 @@
   <!-- PLACEHOLDER 2 -->
   <div class="card-wrap ph2">
     <div class="card ph2">
-      <div class="card-img-placeholder" style="display:flex;">
-        <span style="font-size:28px;color:#333344;">?</span>
-        <span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span>
-      </div>
+      <div class="card-img-placeholder" style="display:flex;"><span style="font-size:28px;color:#333344;">?</span><span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span></div>
       <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
       <div class="card-top"><span class="card-id">#????</span><span class="rarity c-ph b-ph">★ LVL ??</span></div>
       <div class="card-bottom">
-        <div class="card-class c-ph">— CLASSIFICADO —</div>
+        <div class="card-class c-ph" style="border-color:#555566;">— CLASSIFICADO —</div>
         <div class="card-name" style="color:#333344;">??? ??????</div>
         <div class="divider d-ph"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">FOR</div></div>
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">DES</div></div>
-          <div class="stat"><div class="stat-val c-ph">??</div><div class="stat-label">INT</div></div>
+        <div class="stat-bars-wrap">
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
         </div>
         <div class="ability brd-ph"><span class="ability-name c-ph">FUNÇÃO ›</span> <span style="color:#2a2a3a;">██████████████████</span></div>
       </div>
@@ -735,18 +681,14 @@
 <div class="hint-mobile">◀ deslize para navegar ▶</div>
 
 <script>
-// ── MATRIX COLUMNS ──────────────────────────
+// ── MATRIX ──────────────────────────────────
 const matrixLayer = document.getElementById('matrix');
 const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ0110100111001';
 function randomChar() { return chars[Math.floor(Math.random() * chars.length)]; }
-
 for (let i = 0; i < 8; i++) {
   const col = document.createElement('div');
   col.className = 'm-col';
-  const x = i < 4
-    ? (2 + i * 4) + '%'
-    : (74 + (i - 4) * 4) + '%';
-  col.style.left = x;
+  col.style.left = (i < 4 ? (2 + i * 4) : (74 + (i-4) * 4)) + '%';
   const len = 18 + Math.floor(Math.random() * 14);
   for (let j = 0; j < len; j++) {
     const s = document.createElement('span');
@@ -754,105 +696,69 @@ for (let i = 0; i < 8; i++) {
     if (j === 0) s.classList.add('bright');
     col.appendChild(s);
   }
-  const dur = 6 + Math.random() * 10;
-  const del = Math.random() * 8;
-  col.style.animationDuration = dur + 's';
-  col.style.animationDelay    = '-' + del + 's';
+  col.style.animationDuration = (6 + Math.random() * 10) + 's';
+  col.style.animationDelay = '-' + (Math.random() * 8) + 's';
   matrixLayer.appendChild(col);
-
-  // refresh chars periodically
-  setInterval(() => {
-    col.querySelectorAll('span').forEach(s => {
-      if (Math.random() < 0.15) s.textContent = randomChar();
-    });
-  }, 120);
+  setInterval(() => { col.querySelectorAll('span').forEach(s => { if (Math.random() < 0.15) s.textContent = randomChar(); }); }, 120);
 }
 
-// ── RESPONSIVE SCALE ────────────────────────
+// ── SCALE ────────────────────────────────────
 function scaleCards() {
-  const isMobile = window.innerWidth <= 600;
-  if (isMobile) return;
+  if (window.innerWidth <= 600) return;
   const inner = document.getElementById('cards-inner');
   if (!inner) return;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  // reset scale to measure natural size
   inner.style.transform = '';
   const rect = inner.getBoundingClientRect();
-  const naturalW = rect.width  || 1200;
-  const naturalH = rect.height || 600;
-  const scaleX = (vw * 0.92) / naturalW;
-  const scaleY = (vh * 0.72) / naturalH;
-  const scale  = Math.min(scaleX, scaleY, 1);
+  const scale = Math.min((window.innerWidth * 0.92) / (rect.width || 1200), (window.innerHeight * 0.72) / (rect.height || 600), 1);
   inner.style.transform = `scale(${scale})`;
 }
 scaleCards();
 window.addEventListener('resize', scaleCards);
 
-
+// ── COUNTDOWN ────────────────────────────────
 let totalSecs = 3 * 3600 + 47 * 60 + 22;
-function fmtTime(s) {
-  const h = String(Math.floor(s / 3600)).padStart(2,'0');
-  const m = String(Math.floor((s % 3600) / 60)).padStart(2,'0');
-  const sec = String(s % 60).padStart(2,'0');
-  return h + ':' + m + ':' + sec;
-}
 const cdEl = document.getElementById('cd-timer');
-setInterval(() => {
-  if (totalSecs > 0) totalSecs--;
-  cdEl.textContent = fmtTime(totalSecs);
-}, 1000);
+function fmtTime(s) { return [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':'); }
+setInterval(() => { if (totalSecs > 0) totalSecs--; cdEl.textContent = fmtTime(totalSecs); }, 1000);
 cdEl.textContent = fmtTime(totalSecs);
 
-// ── SCAN PROGRESS ────────────────────────────
+// ── SCAN PCT ─────────────────────────────────
 const spPct = document.getElementById('sp-pct');
 let pct = 0;
-setInterval(() => {
-  pct = (pct + 0.09) % 100;
-  spPct.textContent = Math.floor(pct) + '%';
-}, 180);
+setInterval(() => { pct = (pct + 0.09) % 100; spPct.textContent = Math.floor(pct) + '%'; }, 180);
 
-// ── LOG FEED ─────────────────────────────────
+// ── LOG FEED ──────────────────────────────────
 const logFeed = document.getElementById('log-feed');
 const logLines = [
-  { t:'r', m:'[ERR] SIGNAL LOST — NODE 07 UNRESPONSIVE' },
-  { t:'w', m:'[SYS] RECONNECTING TO WARD-77 RELAY...' },
-  { t:'g', m:'[OK]  TARGET LOCK CONFIRMED: KAZEHARA #0077' },
-  { t:'w', m:'[SYS] POWER GRID ANOMALY DETECTED — SECTOR 4' },
-  { t:'r', m:'[WARN] UNAUTHORIZED ENTRY — BLOCK 12 PERIMETER' },
-  { t:'g', m:'[OK]  BIOMETRIC MATCH: LEONIS #0078' },
-  { t:'w', m:'[SYS] UPLINK STABLE · LATENCY 4ms' },
-  { t:'r', m:'[WARN] GRAVITON FIELD DETECTED — RADIUS 40m' },
-  { t:'w', m:'[LOG] 0077-B LAST SEEN: ALLEY 9, WARD 7 · 02:14:07' },
-  { t:'g', m:'[OK]  THREAT ASSESSMENT COMPLETE — EXTREME' },
-  { t:'w', m:'[SYS] ARCHIVE SYNC IN PROGRESS...' },
-  { t:'r', m:'[ERR] FIREWALL BREACH ATTEMPT — ORIGIN UNKNOWN' },
+  {t:'r',m:'[ERR] SIGNAL LOST — NODE 07 UNRESPONSIVE'},
+  {t:'w',m:'[SYS] RECONNECTING TO WARD-77 RELAY...'},
+  {t:'g',m:'[OK]  TARGET LOCK CONFIRMED: KAZEHARA #0077'},
+  {t:'w',m:'[SYS] POWER GRID ANOMALY DETECTED — SECTOR 4'},
+  {t:'r',m:'[WARN] UNAUTHORIZED ENTRY — BLOCK 12 PERIMETER'},
+  {t:'g',m:'[OK]  BIOMETRIC MATCH: LEONIS #0078'},
+  {t:'w',m:'[SYS] UPLINK STABLE · LATENCY 4ms'},
+  {t:'r',m:'[WARN] GRAVITON FIELD DETECTED — RADIUS 40m'},
+  {t:'w',m:'[LOG] 0077-B LAST SEEN: ALLEY 9, WARD 7 · 02:14:07'},
+  {t:'g',m:'[OK]  THREAT ASSESSMENT COMPLETE — EXTREME'},
+  {t:'w',m:'[SYS] ARCHIVE SYNC IN PROGRESS...'},
+  {t:'r',m:'[ERR] FIREWALL BREACH ATTEMPT — ORIGIN UNKNOWN'},
 ];
 let logIdx = 0;
-const MAX_LINES = 3;
-
 function addLogLine() {
-  const entry = logLines[logIdx % logLines.length];
-  logIdx++;
+  const e = logLines[logIdx++ % logLines.length];
   const el = document.createElement('div');
-  el.className = 'log-line ' + entry.t;
-  el.textContent = entry.m;
+  el.className = 'log-line ' + e.t;
+  el.textContent = e.m;
   logFeed.appendChild(el);
-  while (logFeed.children.length > MAX_LINES) {
-    logFeed.removeChild(logFeed.firstChild);
-  }
+  while (logFeed.children.length > 3) logFeed.removeChild(logFeed.firstChild);
 }
 addLogLine();
 setInterval(addLogLine, 2200);
 
-// ── COMPASS NEEDLE DRIFT ─────────────────────
+// ── COMPASS ───────────────────────────────────
 const needle = document.getElementById('compass-needle');
 let angle = 0;
-setInterval(() => {
-  angle += (Math.random() - 0.48) * 1.2;
-  needle.style.transform = `rotate(${angle}deg)`;
-  needle.style.transformOrigin = '26px 26px';
-}, 800);
+setInterval(() => { angle += (Math.random() - 0.48) * 1.2; needle.style.transform = `rotate(${angle}deg)`; needle.style.transformOrigin = '26px 26px'; }, 800);
 </script>
 </body>
 </html>
