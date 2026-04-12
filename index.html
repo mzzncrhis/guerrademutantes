@@ -397,20 +397,77 @@
   .c-abel{color:#4d9fff} .b-abel{border-color:#2a6fcc44} .d-abel{background:#2a6fcc33} .brd-abel{border:1px solid #2a6fcc22} .ca-abel{border-color:#2a6fcc}
   .c-ph  {color:#666677} .b-ph  {border-color:#55556644} .d-ph  {background:#55556633} .brd-ph  {border:1px solid #55556622} .ca-ph  {border-color:#555566}
 
-  /* ── MOBILE ──────────────────────────────── */
-  @media (max-width: 600px) {
-    .scene { align-items:center; justify-content:flex-start; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; padding:0 20px; gap:16px; }
-    .cards-inner { display:flex; align-items:center; gap:16px; padding:40px 20px; width:max-content; }
-    .card-wrap { scroll-snap-align:center; flex-shrink:0; }
-    .card-wrap.rene,.card-wrap.nagi,.card-wrap.leo,.card-wrap.abel,.card-wrap.ph1,.card-wrap.ph2 { transform:rotate(-1.5deg); margin-right:0; }
-    .card-wrap.rene:hover,.card-wrap.nagi:hover,.card-wrap.leo:hover,.card-wrap.abel:hover,.card-wrap.ph1:hover,.card-wrap.ph2:hover { transform:rotate(0deg) scale(1.04); }
-    .hint { display:none; }
-    .hint-mobile { display:block !important; }
-    .scan-progress,.compass { display:none; }
-  }
-
   .hint-mobile { display:none; position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); font-size:8px; color:#ffffff22; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
   .hint        { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%); font-size:9px; color:#ffffff18; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
+
+  /* ── MOBILE ──────────────────────────────── */
+  @media (max-width: 600px) {
+
+    /* title */
+    .title-wrap { padding-top: 1.4vh; }
+    .glitch { font-size: clamp(18px, 6.5vw, 32px); letter-spacing: 0.1em; }
+    .bar-line { width: 28px; }
+    .bar-label { font-size: 6px; letter-spacing: 0.2em; }
+    .status-text { font-size: 6px; letter-spacing: 0.15em; }
+    .title-status { gap: 8px; margin-top: 3px; }
+
+    /* hide heavy desktop elements */
+    .scan-progress, .compass, .hex-layer, .matrix-layer, .countdown { display: none; }
+
+    /* signal — relocate to bottom left */
+    .signal { top: auto; bottom: 10vh; left: 4%; }
+    .sig-label { font-size: 6px; }
+    .sig-bar:nth-child(1){height:4px} .sig-bar:nth-child(2){height:7px}
+    .sig-bar:nth-child(3){height:10px} .sig-bar:nth-child(4){height:13px}
+    .sig-bar:nth-child(5){height:16px}
+
+    /* data layer — only corner brackets */
+    .data-layer .dn, .data-layer .ch { display: none; }
+    .data-layer .bracket.tl { top: 2%; left: 2%; }
+    .data-layer .bracket.tr { top: 2%; right: 2%; }
+    .data-layer .bracket.bl { bottom: 8%; left: 2%; }
+    .data-layer .bracket.br { bottom: 8%; right: 2%; }
+
+    /* log feed */
+    .log-feed { height: 6vh; padding: 0 4%; padding-bottom: 4px; }
+    .log-line { font-size: 6px; }
+
+    /* cards — horizontal swipe */
+    .scene {
+      position: fixed; inset: 0;
+      align-items: center; justify-content: flex-start;
+      overflow-x: auto; overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      padding: 0; scrollbar-width: none;
+    }
+    .scene::-webkit-scrollbar { display: none; }
+    .cards-inner {
+      display: flex; align-items: center;
+      gap: 20px; padding: 80px 40px;
+      width: max-content; transform: none !important;
+    }
+    .card-wrap { scroll-snap-align: center; flex-shrink: 0; width: 200px; }
+    .card { width: 200px; }
+
+    /* reset cascade transforms */
+    .card-wrap.rene, .card-wrap.nagi, .card-wrap.leo,
+    .card-wrap.abel, .card-wrap.ph1, .card-wrap.ph2 { transform: rotate(-1deg); margin-right: 0; z-index: 1; }
+    .card-wrap.rene:active, .card-wrap.nagi:active, .card-wrap.leo:active,
+    .card-wrap.abel:active, .card-wrap.ph1:active, .card-wrap.ph2:active { transform: rotate(0deg) scale(1.04); z-index: 10; }
+
+    /* card text */
+    .card-name { font-size: 12px; }
+    .card-class { font-size: 7px; }
+    .sr-label { font-size: 5.5px; }
+    .sr-val { font-size: 7px; }
+    .ability { font-size: 7px; }
+
+    /* hints */
+    .hint { display: none; }
+    .hint-mobile { display: block !important; bottom: 2.5vh; }
+  }
+
 </style>
 </head>
 <body>
@@ -676,6 +733,7 @@
 
 </div>
 </div>
+
 
 <div class="hint">passe o mouse sobre cada card · ward 77 · case 0077-b</div>
 <div class="hint-mobile">◀ deslize para navegar ▶</div>
