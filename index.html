@@ -468,10 +468,180 @@
     .hint-mobile { display: block !important; bottom: 2.5vh; }
   }
 
+
+  /* ══════════════════════════════════════════
+     FILE PANEL — centered modal
+  ══════════════════════════════════════════ */
+
+  .file-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 80;
+    pointer-events: none;
+    transition: background 0.4s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .file-overlay.open {
+    background: rgba(0,0,0,0.75);
+    pointer-events: all;
+  }
+
+  /* modal box */
+  .file-panel {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0;
+    width: min(820px, 94vw);
+    max-height: 88vh;
+    background: #080810;
+    border: 1px solid rgba(204,34,34,0.22);
+    z-index: 81;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.4s ease;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .file-panel.open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* corner accents on modal */
+  .file-panel::before, .file-panel::after {
+    content: ''; position: absolute;
+    width: 16px; height: 16px;
+    border-style: solid; opacity: 0.5;
+  }
+  .file-panel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-color: #cc2222; }
+  .file-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-color: #6b7c3a; }
+
+  /* header */
+  .fp-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+  .fp-header-left { display: flex; flex-direction: column; gap: 3px; }
+  .fp-tag  { font-size: 6px; letter-spacing: 3px; opacity: 0.4; }
+  .fp-title-name { font-size: 16px; font-weight: 700; letter-spacing: 3px; font-family: 'Bebas Neue', sans-serif; }
+  .fp-close {
+    width: 28px; height: 28px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    transition: border-color 0.2s, color 0.2s;
+    font-family: monospace; flex-shrink: 0;
+  }
+  .fp-close:hover { border-color: rgba(204,34,34,0.6); color: #cc2222; }
+
+  /* scrollable body */
+  .fp-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(204,34,34,0.2) transparent;
+  }
+  .fp-body::-webkit-scrollbar { width: 3px; }
+  .fp-body::-webkit-scrollbar-thumb { background: rgba(204,34,34,0.2); border-radius: 2px; }
+
+  /* hero row: image left, stats right */
+  .fp-hero {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .fp-img-wrap {
+    width: 200px; flex-shrink: 0; position: relative; overflow: hidden;
+  }
+  .fp-img {
+    width: 100%; height: 260px;
+    object-fit: cover; object-position: top center; display: block;
+    filter: contrast(1.4) saturate(0.2) brightness(0.85);
+  }
+  .fp-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 55%, #080810);
+    pointer-events: none;
+  }
+  .fp-stats-col {
+    flex: 1; padding: 20px 22px 20px 16px;
+    display: flex; flex-direction: column; justify-content: center; gap: 12px;
+  }
+  .fp-char-class { font-size: 7px; letter-spacing: 3px; text-transform: uppercase; border-left: 2px solid; padding-left: 6px; }
+  .fp-char-name  { font-size: 28px; font-weight: 700; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; color: #f0f0f0; line-height: 1; }
+
+  .fp-stat-row { display: flex; align-items: center; gap: 8px; }
+  .fp-sl { font-size: 6.5px; letter-spacing: 2px; color: #555; text-transform: uppercase; font-family: monospace; width: 22px; flex-shrink: 0; }
+  .fp-st { flex: 1; height: 5px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
+  .fp-sf { height: 100%; border-radius: 2px; }
+  .fp-sv { font-size: 9px; font-family: monospace; width: 24px; text-align: right; flex-shrink: 0; }
+
+  .fp-ability-box { border-radius: 5px; padding: 8px 10px; line-height: 1.6; }
+  .fp-ability-box .aname { font-size: 7px; font-weight: 700; }
+  .fp-ability-box span:last-child { font-size: 8px; color: #888; }
+
+  /* lore section */
+  .fp-lore-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .fp-lore-tag  { font-size: 6px; letter-spacing: 3px; opacity: 0.35; white-space: nowrap; }
+  .fp-lore-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
+  .fp-lore {
+    padding: 16px 22px 28px;
+    font-size: 11.5px; line-height: 1.9;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.02em;
+    columns: 2; column-gap: 28px;
+  }
+  .fp-lore p { margin-bottom: 1.1em; break-inside: avoid; }
+  .fp-lore p:last-child { margin-bottom: 0; }
+
+  /* scan line inside panel */
+  .fp-scanline {
+    position: absolute; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(204,34,34,0.18), transparent);
+    animation: fp-scan 8s linear infinite;
+    pointer-events: none; z-index: 1;
+  }
+  @keyframes fp-scan {
+    0%   { top: 0; opacity: 0; }
+    2%   { opacity: 1; }
+    98%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* no push needed for centered modal */
+  .main-push { transition: none; }
+  .main-push.shifted { transform: none; }
+
+  /* ── MOBILE ───────────────────────────────── */
+  @media (max-width: 600px) {
+    .file-panel {
+      width: 100%; max-height: 92vh;
+      top: auto; bottom: 0; left: 0;
+      transform: translateY(100%);
+      border-left: none; border-right: none; border-bottom: none;
+      border-top: 1px solid rgba(204,34,34,0.25);
+    }
+    .file-panel.open { transform: translateY(0); opacity: 1; }
+    .fp-hero { flex-direction: column; }
+    .fp-img-wrap { width: 100%; }
+    .fp-img { height: 200px; }
+    .fp-img-overlay { background: linear-gradient(to bottom, transparent 55%, #080810); }
+    .fp-stats-col { padding: 14px 16px; }
+    .fp-lore { columns: 1; font-size: 10.5px; padding: 12px 16px 24px; }
+  }
 </style>
 </head>
 <body>
 
+<!-- MAIN PUSH WRAPPER -->
+<div class="main-push" id="main-push">
 <!-- BASE -->
 <div class="bg"></div>
 <div class="noise"></div>
@@ -592,7 +762,7 @@
 <div class="cards-inner" id="cards-inner">
 
   <!-- RENE -->
-  <div class="card-wrap rene">
+  <div class="card-wrap rene" data-char="rene">
     <div class="card rene">
       <img class="card-img" src="https://i.imgur.com/hQl4iX4.jpeg" alt="Rene Ramirez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-rene">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
@@ -617,7 +787,7 @@
   </div>
 
   <!-- NAGI -->
-  <div class="card-wrap nagi">
+  <div class="card-wrap nagi" data-char="nagi">
     <div class="card nagi">
       <img class="card-img" src="https://i.imgur.com/DGi3GFJ.jpeg" alt="Nagi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-nagi">鬼</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
@@ -642,7 +812,7 @@
   </div>
 
   <!-- LEO -->
-  <div class="card-wrap leo">
+  <div class="card-wrap leo"  data-char="leo">
     <div class="card leo">
       <img class="card-img" src="https://i.imgur.com/WGnzr4h.jpeg" alt="Leo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-leo">🜃</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
@@ -667,7 +837,7 @@
   </div>
 
   <!-- ABEL -->
-  <div class="card-wrap abel">
+  <div class="card-wrap abel" data-char="abel">
     <div class="card abel">
       <img class="card-img" src="https://i.imgur.com/7e1tdzb.jpeg" alt="Abel" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-abel">◈</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
@@ -692,7 +862,7 @@
   </div>
 
   <!-- PLACEHOLDER 1 -->
-  <div class="card-wrap ph1">
+  <div class="card-wrap ph1"  data-char="ph">
     <div class="card ph1">
       <div class="card-img-placeholder" style="display:flex;"><span style="font-size:28px;color:#333344;">?</span><span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span></div>
       <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
@@ -712,7 +882,7 @@
   </div>
 
   <!-- PLACEHOLDER 2 -->
-  <div class="card-wrap ph2">
+  <div class="card-wrap ph2"  data-char="ph">
     <div class="card ph2">
       <div class="card-img-placeholder" style="display:flex;"><span style="font-size:28px;color:#333344;">?</span><span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span></div>
       <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
@@ -735,8 +905,9 @@
 </div>
 
 
-<div class="hint">passe o mouse sobre cada card · ward 77 · case 0077-b</div>
-<div class="hint-mobile">◀ deslize para navegar ▶</div>
+<div class="hint">clique em um card para abrir o arquivo · ward 77</div>
+<div class="hint-mobile">◀ deslize · toque para abrir o arquivo ▶</div>
+</div><!-- end main-push -->
 
 <script>
 // ── MATRIX ──────────────────────────────────
@@ -818,5 +989,211 @@ const needle = document.getElementById('compass-needle');
 let angle = 0;
 setInterval(() => { angle += (Math.random() - 0.48) * 1.2; needle.style.transform = `rotate(${angle}deg)`; needle.style.transformOrigin = '26px 26px'; }, 800);
 </script>
+
+<!-- FILE OVERLAY -->
+<div class="file-overlay" id="file-overlay"></div>
+
+<!-- FILE PANEL -->
+<div class="file-panel" id="file-panel">
+  <div class="fp-scanline"></div>
+  <div class="fp-header">
+    <div class="fp-header-left">
+      <div class="fp-tag" id="fp-tag">ARQUIVO CLASSIFICADO · WARD 77</div>
+      <div class="fp-title-name" id="fp-title-name">—</div>
+    </div>
+    <button class="fp-close" id="fp-close">✕</button>
+  </div>
+  <div class="fp-body">
+    <div class="fp-hero">
+      <div class="fp-img-wrap">
+        <img class="fp-img" id="fp-img" src="" alt=""/>
+        <div class="fp-img-overlay"></div>
+      </div>
+      <div class="fp-stats-col">
+        <div class="fp-char-class" id="fp-char-class"></div>
+        <div class="fp-char-name"  id="fp-char-name"></div>
+        <div class="fp-stat-row">
+          <div class="fp-sl">FOR</div>
+          <div class="fp-st"><div class="fp-sf" id="fp-sf-for"></div></div>
+          <div class="fp-sv" id="fp-sv-for"></div>
+        </div>
+        <div class="fp-stat-row">
+          <div class="fp-sl">DES</div>
+          <div class="fp-st"><div class="fp-sf" id="fp-sf-des"></div></div>
+          <div class="fp-sv" id="fp-sv-des"></div>
+        </div>
+        <div class="fp-stat-row">
+          <div class="fp-sl">INT</div>
+          <div class="fp-st"><div class="fp-sf" id="fp-sf-int"></div></div>
+          <div class="fp-sv" id="fp-sv-int"></div>
+        </div>
+        <div class="fp-ability-box" id="fp-ability-box">
+          <span class="aname" id="fp-ability-name">FUNÇÃO › </span>
+          <span id="fp-ability-text"></span>
+        </div>
+      </div>
+    </div>
+    <div class="fp-lore-header">
+      <div class="fp-lore-tag">HISTÓRICO · ARQUIVO PESSOAL</div>
+      <div class="fp-lore-line"></div>
+      <div class="fp-lore-tag" id="fp-lore-id"></div>
+    </div>
+    <div class="fp-lore" id="fp-lore"></div>
+  </div>
+</div>
+
+<script>
+// ── CHARACTER DATA ──────────────────────────
+const CHARS = {
+  nagi: {
+    name: 'NAGI KAZEHARA',
+    cls:  '— DEMÔNIO DAS RUAS —',
+    tag:  'ARQUIVO #0077 · WARD 77',
+    id:   '#0077',
+    img:  'https://i.imgur.com/DGi3GFJ.jpeg',
+    color:'#cc2222',
+    bar:  'linear-gradient(to right,#770000,#cc2222)',
+    shadow:'0 0 5px #cc222288',
+    stats:{ for:78, des:94, int:61 },
+    ability: 'Defende, da sua forma, aqueles que são indefesos.',
+    lore: [
+      'Nagi cresceu no Chinatown de Nova York, filho de imigrantes japoneses que nunca saíram do bairro. Cresceu entre diferentes mundos sem pertencer direito a nenhum: japonês demais pros vizinhos chineses, americano demais pra família, invisível demais pro resto da cidade. Em casa não era diferente: pai sumido, mãe que mal dava conta de si mesma. O vazio que isso deixou, o bairro preencheu do jeito que sabia, com atrito, confusões e com a necessidade de brigar por um espaço antes que alguém ocupasse o seu. Aprendeu cedo que a única linguagem que todo mundo entendia era a postura: ombros largos, olhar fixo, e a disposição de não sair do caminho de ninguém.',
+      'Sempre teve uma inquietação dentro de si, daquela que fica parada no peito como pedra, que transforma qualquer aproximação em ameaça e qualquer gentileza em perigo. Sabia se fechar e empurrar as pessoas pra longe, mas havia uma contradição que o bairro inteiro conhecia antes dele admitir. O mesmo garoto que iniciava uma briga na segunda gastava o dinheiro do almoço na sexta pra comprar comida pra um morador de rua. Uma vez até levou um garoto mais novo até o pronto socorro depois de uma briga que não era sequer dele, esperou até ter certeza que alguém tinha atendido, e sumiu antes que qualquer um pudesse ligar o nome ao rosto. Não falava sobre isso, fingia até que não tinha acontecido. No bairro esse tipo de coisa não ficava escondido por muito tempo e o consenso silencioso era que Nagi era exatamente o tipo de pessoa que ninguém queria provocar, mas era o primeiro que você chamava quando a situação era feia de verdade.',
+      'O homem que mais chegou perto de ser um pai pra ele foi Kenji, dono de uma mercearia na esquina onde Nagi cresceu. Não era um homem de muitas palavras — o que provavelmente foi o motivo de Nagi ter tolerado ele. Kenji não tentou conversar sobre sentimentos. Numa tarde sem cerimônia, simplesmente disse que precisava de alguém pra ajudar a fechar a mercearia e que pagava em dinheiro. Nagi apareceu porque era dinheiro, mas ficou porque Kenji nunca perguntou nada que ele não quisesse responder. Semanas depois, no fim de uma noite de trabalho, Kenji colocou sobre o balcão um taco de beisebol velho que ficava encostado num canto. "Faz parte do pagamento", foi tudo que Kenji disse. Nagi pegou sem discutir.',
+      'Dito isso, o beisebol deu forma à raiva que ele reprimia. Em campo, aquele peso que carregava desde sempre diminuía. Não sumia, mas recuava o suficiente pra respirar. O que ele não sabia era que o alívio vinha com um custo visível pra todo mundo menos pra ele: rebatidas com força desproporcional, bolas que descreviam curvas impossíveis, mudando de trajetória no meio do caminho como se algo invisível interviesse. Os técnicos coçavam a cabeça. Nagi não entendia o porquê e nunca parou pra pensar — achava que era jeito, que batia diferente, que o corpo simplesmente funcionava assim.',
+      'Semanas antes de morrer, Kenji mencionou de passagem que dois garotos de uma facção estavam usando os fundos da mercearia pra guardar coisas que não deveriam ser guardadas. Nagi ouviu, reconheceu os nomes, e deixou pra resolver depois. Uma noite o desentendimento escalou sem avisar, tiros foram disparados, e Kenji estava na porta da própria mercearia. Nagi soube pelo movimento na rua — era gente demais parada na frente do estabelecimento a uma hora estranha. E sabia também que um dos elos daquela tragédia vinha diretamente de uma omissão sua.',
+      'A morte de Kenji quebrou um filtro que Nagi nem sabia que tinha. Numa noite comum, voltando pra casa, cruzou com uma briga entre facções no beco atrás da lavanderia — uma criança presa no meio. Quando um dos homens empurrou o menino em direção à rua, algo explodiu pra fora de seu corpo sem aviso. O carro parou como se tivesse batido numa parede invisível, os dois homens foram arremessados contra paredes opostas, e o menino ficou ileso. Um dos homens ao cair no chão deixou escapar: "que demônio é esse?" Nagi olhou pras próprias mãos, confuso e assustado — mas por baixo disso havia algo perturbadoramente familiar. O peso que carregava desde sempre tinha finalmente tomado forma.',
+      'A máscara Oni que ficava pendurada atrás do balcão da mercearia — preta, com detalhes vermelhos — sempre pareceu destoar de tudo ali dentro. Antes que a mercearia fosse esvaziada, entrou uma última vez e saiu apenas com ela. Cada vez que a olhava, as palavras do homem voltavam à sua mente: Demônio. E de certa forma, Nagi gostava de como ela soava. Que esse demônio assombre a todos que decidirem se aproveitar dos mais fracos.',
+      'A primeira noite com a máscara não teve plano nem cerimônia. Podia ajudar de um jeito que antes era impossível — direto, sem calcular consequências pra si mesmo. E cada vez que alguém saía ileso de uma situação que não deveria ter terminado bem, havia uma sensação que ele não sabia nomear direito, mas era como estar vivo de um jeito mais completo. Não paz. Mas algo próximo disso.',
+      'Aos vinte anos, comprou e reabriu a mercearia da esquina. De dia, a mercearia, a quadra e as crianças. À noite, a máscara e as ruas. Em Chinatown, hoje já não se fala mais apenas de um mito — isso já se tornou um fato. Alguém que conhece cada beco, cada esquina, cada rosto que não deveria estar em determinado lugar a determinada hora. A raiva ainda está lá — sempre esteve. Só que agora tem direção.',
+    ]
+  },
+  rene: {
+    name: 'RENE RAMIREZ',
+    cls:  '— O FANTASMA —',
+    tag:  'ARQUIVO #0079 · WARD 77',
+    id:   '#0079',
+    img:  'https://i.imgur.com/hQl4iX4.jpeg',
+    color:'#cccccc',
+    bar:  'linear-gradient(to right,#888899,#cccccc)',
+    shadow:'0 0 5px #cccccc66',
+    stats:{ for:65, des:88, int:95 },
+    ability: 'Nunca mais ser esquecido.',
+    lore: ['Arquivo em processamento. Acesso restrito — nível de clearance insuficiente.']
+  },
+  leo: {
+    name: 'LEO',
+    cls:  '— LEONIS —',
+    tag:  'ARQUIVO #0078 · WARD 77',
+    id:   '#0078',
+    img:  'https://i.imgur.com/WGnzr4h.jpeg',
+    color:'#6b7c3a',
+    bar:  'linear-gradient(to right,#3a4a1a,#6b7c3a)',
+    shadow:'0 0 5px #6b7c3a88',
+    stats:{ for:85, des:72, int:88 },
+    ability: 'Entender seu propósito em meio a tanta tragédia.',
+    lore: ['Arquivo em processamento. Acesso restrito — nível de clearance insuficiente.']
+  },
+  abel: {
+    name: 'ABEL',
+    cls:  '— O CAIM —',
+    tag:  'ARQUIVO #0001 · WARD 77',
+    id:   '#0001',
+    img:  'https://i.imgur.com/7e1tdzb.jpeg',
+    color:'#4d9fff',
+    bar:  'linear-gradient(to right,#153a66,#2a6fcc)',
+    shadow:'0 0 5px #2a6fcc88',
+    stats:{ for:91, des:76, int:83 },
+    ability: 'Ajudar, acumular, devolver.',
+    lore: ['Arquivo em processamento. Acesso restrito — nível de clearance insuficiente.']
+  },
+  ph: null
+};
+
+// ── PANEL LOGIC ─────────────────────────────
+const overlay   = document.getElementById('file-overlay');
+const panel     = document.getElementById('file-panel');
+const mainPush  = document.getElementById('main-push');
+const btnClose  = document.getElementById('fp-close');
+let panelOpen   = false;
+
+function openPanel(charKey) {
+  const data = CHARS[charKey];
+  if (!data) return;
+
+  // populate
+  document.getElementById('fp-tag').textContent        = data.tag;
+  document.getElementById('fp-title-name').textContent = data.name;
+  document.getElementById('fp-title-name').style.color = data.color;
+  document.getElementById('fp-title-name').style.textShadow = '0 0 12px ' + data.color + '66';
+  document.getElementById('fp-tag').style.color        = data.color;
+  document.getElementById('fp-img').src                = data.img;
+  document.getElementById('fp-char-class').textContent = data.cls;
+  document.getElementById('fp-char-class').style.color = data.color;
+  document.getElementById('fp-char-class').style.borderColor = data.color;
+  document.getElementById('fp-char-name').textContent  = data.name;
+
+  // stats
+  ['for','des','int'].forEach(s => {
+    const val = data.stats[s];
+    const fill = document.getElementById('fp-sf-' + s);
+    const disp = document.getElementById('fp-sv-' + s);
+    fill.style.width      = val + '%';
+    fill.style.background = data.bar;
+    fill.style.boxShadow  = data.shadow;
+    disp.textContent      = val;
+    disp.style.color      = data.color;
+    // track border
+    fill.parentElement.style.border = '1px solid ' + data.color + '22';
+  });
+
+  // ability
+  const abox = document.getElementById('fp-ability-box');
+  abox.style.border = '1px solid ' + data.color + '22';
+  document.getElementById('fp-ability-name').style.color = data.color;
+  document.getElementById('fp-ability-text').textContent = data.ability;
+
+  // lore id
+  document.getElementById('fp-lore-id').textContent = data.id;
+
+  // lore text — colored
+  const loreEl = document.getElementById('fp-lore');
+  loreEl.innerHTML = data.lore.map(p =>
+    `<p style="color:${data.color}cc">${p}</p>`
+  ).join('');
+
+  // open
+  overlay.classList.add('open');
+  panel.classList.add('open');
+  const isMobile = window.innerWidth <= 600;
+  // centered modal — no push needed
+  panelOpen = true;
+}
+
+function closePanel() {
+  overlay.classList.remove('open');
+  panel.classList.remove('open');
+  mainPush.classList.remove('shifted');
+  panelOpen = false;
+}
+
+// card clicks
+document.querySelectorAll('.card-wrap[data-char]').forEach(wrap => {
+  wrap.addEventListener('click', () => {
+    const key = wrap.dataset.char;
+    if (!CHARS[key]) return; // placeholders — do nothing
+    if (panelOpen) { closePanel(); setTimeout(() => openPanel(key), 460); }
+    else openPanel(key);
+  });
+});
+
+// close triggers
+btnClose.addEventListener('click', closePanel);
+overlay.addEventListener('click', closePanel);
+
+// ESC key
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && panelOpen) closePanel(); });
+</script>
+
 </body>
 </html>
