@@ -396,6 +396,25 @@
   .c-rene{color:#cccccc} .b-rene{border-color:#cccccc44} .d-rene{background:#cccccc33} .brd-rene{border:1px solid #cccccc22} .ca-rene{border-color:#cccccc}
   .c-abel{color:#4d9fff} .b-abel{border-color:#2a6fcc44} .d-abel{background:#2a6fcc33} .brd-abel{border:1px solid #2a6fcc22} .ca-abel{border-color:#2a6fcc}
   .c-ph  {color:#666677} .b-ph  {border-color:#55556644} .d-ph  {background:#55556633} .brd-ph  {border:1px solid #55556622} .ca-ph  {border-color:#555566}
+  .c-diana{color:#d4b800} .b-diana{border-color:#c8a80044} .d-diana{background:#c8a80033} .brd-diana{border:1px solid #c8a80022} .ca-diana{border-color:#c8a800}
+
+  /* ── DIANA card styles ─────────────────── */
+  .card.diana {
+    clip-path:polygon(0% 2%,2.2% 0%,5% 1.8%,8% 0%,92% 0%,95% 2%,97.8% 0%,100% 2%,100% 97.5%,97.5% 100%,94% 98%,90% 100%,10% 100%,6% 98%,2.5% 100%,0% 97.5%);
+    box-shadow:0 0 0 1px #c8a80044,0 10px 36px #000000cc,0 0 28px #c8a80044,0 0 55px #c8a80022;
+  }
+  .card.diana .card-img { filter: none; }
+  .card.diana .neon-bleed { background:linear-gradient(140deg,rgba(200,168,0,0.22) 0%,transparent 55%,rgba(160,120,0,0.08) 100%); mix-blend-mode:screen; }
+  .card.diana .glitch-img::before { content:''; position:absolute; left:0; right:0; height:4px; background:rgba(200,168,0,0.45); mix-blend-mode:screen; animation:yw-ga 8s infinite steps(1); }
+  .card.diana .glitch-img::after  { content:''; position:absolute; left:0; right:0; height:3px; background:rgba(255,220,0,0.28); mix-blend-mode:screen; animation:yw-gb 12s infinite steps(1); }
+  @keyframes yw-ga{0%,100%{opacity:0;top:38%}7%{opacity:1;top:38%;transform:translateX(4px)}8%{opacity:0}55%{opacity:0;top:60%}56%{opacity:1;top:60%;transform:translateX(-4px)}57%{opacity:0}}
+  @keyframes yw-gb{0%,100%{opacity:0}30%{opacity:1;top:50%;transform:translateX(-5px)}31%{opacity:0}78%{opacity:1;top:28%;transform:translateX(3px)}79%{opacity:0}}
+  .card.diana .damage::before { content:''; position:absolute; inset:0; background:linear-gradient(148deg,transparent 38%,rgba(255,255,255,0.035) 38.4%,transparent 38.8%),linear-gradient(328deg,transparent 45%,rgba(255,255,255,0.025) 45.4%,transparent 45.8%),linear-gradient(30deg,transparent 63%,rgba(0,0,0,0.38) 64%,transparent 65%); }
+  .card.diana .damage::after  { content:''; position:absolute; top:22%; right:-6%; width:28%; height:2px; background:linear-gradient(to right,transparent,rgba(200,168,0,0.45),transparent); transform:rotate(-35deg); box-shadow:0 5px 0 rgba(200,168,0,0.15); }
+  .card.diana .burn { bottom:0; left:0; width:65px; height:65px; background:radial-gradient(circle at 0% 100%,rgba(200,168,0,0.22) 0%,transparent 70%); }
+  .card.diana .sr-track { border:1px solid rgba(200,168,0,0.15); }
+  .card.diana .sr-fill  { background:linear-gradient(to right,#7a6400,#c8a800); box-shadow:0 0 5px #c8a80088; animation:pulse-diana 3s ease-in-out infinite; }
+  @keyframes pulse-diana{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
 
   .hint-mobile { display:none; position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); font-size:8px; color:#ffffff22; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
   .hint        { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%); font-size:9px; color:#ffffff18; font-family:monospace; letter-spacing:3px; z-index:70; white-space:nowrap; text-transform:uppercase; }
@@ -560,6 +579,7 @@
     object-fit: cover; object-position: top center; display: block;
     filter: contrast(1.4) saturate(0.2) brightness(0.85);
   }
+  .fp-img.no-filter { filter: none; }
   .fp-img-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(to right, transparent 55%, #080810);
@@ -861,22 +881,27 @@
     </div>
   </div>
 
-  <!-- PLACEHOLDER 1 -->
-  <div class="card-wrap ph1"  data-char="ph">
-    <div class="card ph1">
-      <div class="card-img-placeholder" style="display:flex;"><span style="font-size:28px;color:#333344;">?</span><span style="font-size:8px;color:#333344;font-family:monospace;letter-spacing:3px;margin-top:6px;">EM BREVE</span></div>
-      <div class="corner-accent ca-ph tl"></div><div class="corner-accent ca-ph tr"></div>
-      <div class="card-top"><span class="card-id">#????</span><span class="rarity c-ph b-ph">★ LVL ??</span></div>
+  <!-- DIANA -->
+  <div class="card-wrap ph1" data-char="diana">
+    <div class="card diana">
+      <img class="card-img" src="https://i.imgur.com/tglnCpi.jpeg" alt="Diana" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="card-img-placeholder" style="display:none;"><span style="font-size:22px;" class="c-diana">🦉</span><span style="font-size:8px;color:#444;font-family:monospace;letter-spacing:2px;">IMAGE UNAVAILABLE</span></div>
+      <div class="neon-bleed"></div>
+      <div class="glitch-img"></div>
+      <div class="damage"></div>
+      <div class="burn"></div>
+      <div class="corner-accent ca-diana tl"></div><div class="corner-accent ca-diana tr"></div>
+      <div class="card-top"><span class="card-id">#0080</span><span class="rarity c-diana b-diana">★ LVL 05</span></div>
       <div class="card-bottom">
-        <div class="card-class c-ph" style="border-color:#555566;">— CLASSIFICADO —</div>
-        <div class="card-name" style="color:#333344;">??? ??????</div>
-        <div class="divider d-ph"></div>
+        <div class="card-class c-diana" style="border-color:#c8a800;">— A CORUJA —</div>
+        <div class="card-name">DIANA MILLER</div>
+        <div class="divider d-diana"></div>
         <div class="stat-bars-wrap">
-          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
-          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
-          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:0%"></div></div><div class="sr-val c-ph">??</div></div>
+          <div class="stat-row"><div class="sr-label">FOR</div><div class="sr-track"><div class="sr-fill" style="width:58%"></div></div><div class="sr-val c-diana">58</div></div>
+          <div class="stat-row"><div class="sr-label">DES</div><div class="sr-track"><div class="sr-fill" style="width:89%;animation-delay:0.3s"></div></div><div class="sr-val c-diana">89</div></div>
+          <div class="stat-row"><div class="sr-label">INT</div><div class="sr-track"><div class="sr-fill" style="width:97%;animation-delay:0.6s"></div></div><div class="sr-val c-diana">97</div></div>
         </div>
-        <div class="ability brd-ph"><span class="ability-name c-ph">FUNÇÃO ›</span> <span style="color:#2a2a3a;">██████████████████</span></div>
+        <div class="ability brd-diana"><span class="ability-name c-diana">FUNÇÃO ›</span> Sabe aquela sensação de que não está sozinho? Mmhahhaha</div>
       </div>
     </div>
   </div>
@@ -1107,7 +1132,30 @@ const CHARS = {
     ability: 'Ajudar, acumular, devolver.',
     lore: ['Arquivo em processamento. Acesso restrito — nível de clearance insuficiente.']
   },
-  ph: null
+  ph: null,
+  diana: {
+    name: 'DIANA MILLER',
+    cls:  '— A CORUJA —',
+    tag:  'ARQUIVO #0080 · WARD 77',
+    id:   '#0080',
+    img:  'https://i.imgur.com/tglnCpi.jpeg',
+    noFilter: true,
+    color:'#d4b800',
+    bar:  'linear-gradient(to right,#7a6400,#c8a800)',
+    shadow:'0 0 5px #c8a80088',
+    stats:{ for:58, des:89, int:97 },
+    ability: 'Sabe aquela sensação de que não está sozinho? Mmhahhaha',
+    lore: [
+      'Sons de pratos sendo alinhados à mesa...',
+      '"Jornalista Joe Fox — Interrompemos a programação atual para noticiar um ataque que acaba de acontecer! Um malfeitor bombardeou a torre principal da Dwoubt, empresa multimilionária no ramo de salgadinhos, cujo o dono Charlie Dirk estava sendo investigado por lavagem de dinheiro e sonegaç-..."',
+      'TV começa a chiar. Uma sombra segura inundando a sala de estar...',
+      '"B-Bruce... Cadê o Bruce..?"',
+      'Diana havia perdido seu marido aquele dia. Marido humano que não sabia de seus poderes. Marido humano que não pôde ser protegido de um ataque sequer direcionado a ele.',
+      'Os humanos são delicados.',
+      'Fazem 3 anos que Diana tenta se adaptar ao luto, lidando de sua maneira. Em determinado momento decidiu vagar pelas ruas noturnas de New York, e consequentemente, passou a salvar pessoas. Ela não conseguia ignorar — sempre imaginava seu falecido marido no lugar da vítima.',
+      'E assim assumiu sua nova identidade... Coruja.',
+    ]
+  }
 };
 
 // ── PANEL LOGIC ─────────────────────────────
@@ -1127,7 +1175,9 @@ function openPanel(charKey) {
   document.getElementById('fp-title-name').style.color = data.color;
   document.getElementById('fp-title-name').style.textShadow = '0 0 12px ' + data.color + '66';
   document.getElementById('fp-tag').style.color        = data.color;
-  document.getElementById('fp-img').src                = data.img;
+  const fpImg = document.getElementById('fp-img');
+  fpImg.src = data.img;
+  fpImg.classList.toggle('no-filter', !!data.noFilter);
   document.getElementById('fp-char-class').textContent = data.cls;
   document.getElementById('fp-char-class').style.color = data.color;
   document.getElementById('fp-char-class').style.borderColor = data.color;
